@@ -10,6 +10,7 @@ import jad.fm1023.Entity.Autor;
 import jad.fm1023.RequestEntities.RequestAutor;
 import jad.fm1023.Service.AutorService;
 import jad.fm1023.dto.AutorDTO;
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,18 +32,18 @@ public class AutorController {
     AutorService autorService;
 
     @GetMapping("/getAll")
-    public List<Autor> getAll() {
+    public ResponseEntity<?> getAll() {
         return this.autorService.getAll();
     }
 
 
      @GetMapping("/{id}")
-    public Autor getOneVariable(@PathVariable Integer id) {
+    public ResponseEntity<?> getOneVariable(@PathVariable Integer id) {
         return this.autorService.get(id);
     }
 
     @PostMapping()
-    public AutorDTO save(@RequestBody Autor autor) {
+    public ResponseEntity<?> save(@RequestBody RequestAutor autor) {
         return this.autorService.save(autor);
     }
 

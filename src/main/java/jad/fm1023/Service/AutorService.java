@@ -29,19 +29,21 @@ public class AutorService{
     @Autowired
     AutorEntityConverter autorEntityConverter;
 
-    public List<Autor> getAll(){
+    public ResponseEntity<?> getAll(){
         List<Autor> autores = this.autorRepository.findAll();
-        return autores;
+        return new ResponseEntity<>(autorEntityConverter.toResponseAll(autores),HttpStatus.OK);
     }
 
-    public Autor get(int idAutor){
+    public ResponseEntity<?> get(int idAutor){
         Autor autor = this.autorRepository.getOne(idAutor);
-        return autor;
+         return new ResponseEntity<>(this.autorEntityConverter.toResponse(autor),HttpStatus.OK);
     }
 
-    public AutorDTO save(Autor autor){
+    public ResponseEntity<?> save(RequestAutor newAutor){
+       Autor autor = new Autor();
+       autor.setNombreAutor(newAutor.getNombreAutor());
        this.autorRepository.saveAndFlush(autor);
-       return this.autorEntityConverter.toResponse(autor); 
+      return new ResponseEntity<>(this.autorEntityConverter.toResponse(autor),HttpStatus.OK);
     }
 
     public ResponseEntity<?> update(int id,RequestAutor autor){
