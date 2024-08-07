@@ -1,4 +1,4 @@
-package jad.fm1023;
+package jad.farmacy;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
