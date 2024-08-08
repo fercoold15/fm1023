@@ -1,6 +1,7 @@
 package jad.farmacy.Exceptions;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.security.access.AccessDeniedException;
@@ -49,6 +50,12 @@ public class GlobalExceptionHandler {
             errorDetail.setProperty("description", "Unknown internal server error.");
         }
 
+        return errorDetail;
+    }
+    @ExceptionHandler(StoreNotFoundException.class)
+    public ProblemDetail handleStoreNotFoundException(StoreNotFoundException exception) {
+        ProblemDetail errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(HttpStatus.NOT_FOUND.value()), exception.getMessage());
+        errorDetail.setProperty("description", "The requested store could not be found.");
         return errorDetail;
     }
 }

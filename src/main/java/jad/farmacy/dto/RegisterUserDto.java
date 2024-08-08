@@ -7,6 +7,16 @@ public class RegisterUserDto {
 
     private String fullName;
 
+    private Long storeID;
+
+    public Long getStoreID() {
+        return storeID;
+    }
+
+    public void setStoreID(Long storeID) {
+        this.storeID = storeID;
+    }
+
     public String getEmail() {
         return email;
     }

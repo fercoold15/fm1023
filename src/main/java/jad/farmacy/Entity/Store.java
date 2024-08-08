@@ -1,0 +1,42 @@
+package jad.farmacy.Entity;
+
+import jakarta.persistence.*;
+
+@Table(name = "STORES")
+@Entity
+public class Store {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "STORE_ID",nullable = false)
+    private Long id;
+
+    @Column(name = "STORE_NAME")
+    private String storeName;
+
+    @Column(name = "STORE_DIRECTION")
+    private String storeDirection;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
+    }
+
+    public String getStoreDirection() {
+        return storeDirection;
+    }
+
+    public void setStoreDirection(String storeDirection) {
+        this.storeDirection = storeDirection;
+    }
+}
