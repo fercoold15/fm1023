@@ -3,9 +3,11 @@ package jad.farmacy.controller;
 import jad.farmacy.Entity.User;
 import jad.farmacy.Service.AuthenticationService;
 import jad.farmacy.Service.JwtService;
+import jad.farmacy.configurations.GlobalResponse;
 import jad.farmacy.dto.LoginUserDto;
 import jad.farmacy.dto.RegisterUserDto;
 import jad.farmacy.dto.Responses.LoginResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,14 +27,14 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto) {
+    public ResponseEntity<GlobalResponse> register(@RequestBody RegisterUserDto registerUserDto) {
         User registeredUser = authenticationService.signup(registerUserDto);
-
-        return ResponseEntity.ok(registeredUser);
+        GlobalResponse apiResponse = new GlobalResponse(200,"Registro Creado", "Registro Creado", registeredUser);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginUserDto loginUserDto) {
+    public ResponseEntity<GlobalResponse> authenticate(@RequestBody LoginUserDto loginUserDto) {
         User authenticatedUser = authenticationService.authenticate(loginUserDto);
 
         String jwtToken = jwtService.generateToken(authenticatedUser);
@@ -42,6 +44,7 @@ public class AuthenticationController {
         loginResponse.setExpiresIn(jwtService.getExpirationTime());
         loginResponse.setRole(authenticatedUser.getRole().getName().toString());
 
-        return ResponseEntity.ok(loginResponse);
+        GlobalResponse apiResponse = new GlobalResponse(200,"Registro Creado", "Registro Creado", loginResponse);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 }

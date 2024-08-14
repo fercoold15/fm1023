@@ -2,6 +2,7 @@ package jad.farmacy.Controller;
 
 import jad.farmacy.Entity.Store;
 import jad.farmacy.Service.StoreService;
+import jad.farmacy.configurations.GlobalResponse;
 import jad.farmacy.dto.NewStore;
 import jad.farmacy.dto.UpdateStore;
 import org.springframework.http.HttpStatus;
@@ -21,31 +22,25 @@ public class StoreController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Store>> getAllStores() {
-        List<Store> stores = storeService.allStores();
-        return new ResponseEntity<>(stores, HttpStatus.OK);
+    public ResponseEntity<GlobalResponse> getAllStores() {
+        return storeService.allStores();
     }
 
     @PostMapping
-    public ResponseEntity<Store> addStore(@RequestBody NewStore newStore) {
-        Store store = storeService.addStore(newStore);
-        return new ResponseEntity<>(store, HttpStatus.CREATED);
+    public ResponseEntity<GlobalResponse> addStore(@RequestBody NewStore newStore) {
+        return storeService.addStore(newStore);
+
     }
 
     @PutMapping
-    public ResponseEntity<Store> updateStore(@RequestBody UpdateStore updateStore) {
-        Store store = storeService.updateStore(updateStore);
-        if (store != null) {
-            return new ResponseEntity<>(store, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<GlobalResponse> updateStore(@RequestBody UpdateStore updateStore) {
+        return storeService.updateStore(updateStore);
+
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Store> getStoreById(@PathVariable Long id) {
-        Store store = storeService.getStoreById(id);
-        return new ResponseEntity<>(store, HttpStatus.OK);
+    public ResponseEntity<GlobalResponse> getStoreById(@PathVariable Long id) {
+        return storeService.getStoreById(id);
     }
 
     @DeleteMapping("/{id}")
@@ -53,4 +48,6 @@ public class StoreController {
         storeService.deleteStoreById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+
 }
