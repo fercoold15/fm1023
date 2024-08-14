@@ -4,8 +4,11 @@ package jad.farmacy.Service;
 import jad.farmacy.Entity.Store;
 import jad.farmacy.Exceptions.StoreNotFoundException;
 import jad.farmacy.Repository.StoreRepository;
+import jad.farmacy.configurations.GlobalResponse;
 import jad.farmacy.dto.NewStore;
 import jad.farmacy.dto.UpdateStore;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,35 +23,42 @@ public class StoreService {
         this.storeRepository=storeRepository;
     }
 
-    public List<Store> allStores() {
+    public ResponseEntity<GlobalResponse> allStores() {
         List<Store> stores = new ArrayList<>();
         storeRepository.findAll().forEach(stores::add);
-        return stores;
+        GlobalResponse apiResponse = new GlobalResponse(200,"Registros Encontrados", "Registros Encontrados", stores);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+
     }
 
-    public Store addStore(NewStore newStore) {
+    public ResponseEntity<GlobalResponse> addStore(NewStore newStore) {
 
         Store store = new Store();
         store.setStoreName(newStore.getStoreName());
         store.setStoreDirection(newStore.getStoreDirection());
-
-        return storeRepository.save(store);
+        store=storeRepository.save(store);
+        GlobalResponse apiResponse = new GlobalResponse(200,"Registros Encontrados", "Registros Encontrados", store);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    public Store updateStore(UpdateStore updateStore) {
+    public ResponseEntity<GlobalResponse> updateStore(UpdateStore updateStore) {
         if(updateStore.getStoreId() == 0){
             return null;
         }
 
         Store store = new Store();
+        store.setId(updateStore.getStoreId());
         store.setStoreName(updateStore.getStoreName());
         store.setStoreDirection(updateStore.getStoreDirection());
-        return storeRepository.save(store);
+        store=storeRepository.save(store);
+        GlobalResponse apiResponse = new GlobalResponse(200,"Registros Encontrados", "Registros Encontrados", store);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    public Store getStoreById(Long id) {
-        return storeRepository.findById(id)
-                .orElseThrow(() -> new StoreNotFoundException("Store not found with id: " + id));
+    public ResponseEntity<GlobalResponse> getStoreById(Long id) {
+        Optional<Store> store = storeRepository.findById(id);
+        GlobalResponse apiResponse = new GlobalResponse(200,"Registros Encontrados", "Registros Encontrados", store.isPresent()?store.get():"");
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     public void deleteStoreById(Long id) {
