@@ -1,11 +1,23 @@
 package jad.farmacy.dto.Responses;
 
+import jad.farmacy.Entity.User;
+
 public class LoginResponse {
     private String token;
 
     private long expiresIn;
 
     private String role;
+
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public String getRole() {
         return role;

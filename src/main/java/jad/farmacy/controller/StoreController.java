@@ -1,6 +1,6 @@
-package jad.farmacy.Controller;
+package jad.farmacy.controller;
 
-import jad.farmacy.Entity.Store;
+
 import jad.farmacy.Service.StoreService;
 import jad.farmacy.configurations.GlobalResponse;
 import jad.farmacy.dto.NewStore;
@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
 
 @RestController
 @RequestMapping("/stores")
