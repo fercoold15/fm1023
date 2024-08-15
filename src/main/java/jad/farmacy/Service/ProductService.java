@@ -3,14 +3,12 @@ package jad.farmacy.Service;
 import jad.farmacy.Entity.Product;
 import jad.farmacy.Entity.Store;
 import jad.farmacy.Exceptions.ProductNotFoundException;
-import jad.farmacy.Exceptions.StoreNotFoundException;
 import jad.farmacy.Repository.ProductRepository;
-import jad.farmacy.Repository.StoreRepository;
+import jad.farmacy.configurations.GlobalResponse;
 import jad.farmacy.dto.NewProduct;
-import jad.farmacy.dto.NewStore;
 import jad.farmacy.dto.UpdateProduct;
-import jad.farmacy.dto.UpdateStore;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,18 +17,18 @@ import java.util.List;
 public class ProductService {
     private final ProductRepository productRepository;
 
-    public ProductService(ProductRepository productRepository){
-        this.productRepository=productRepository;
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
-
-    public List<Product> allProducts() {
+    public ResponseEntity<GlobalResponse> allProducts() {
         List<Product> products = new ArrayList<>();
         productRepository.findAll().forEach(products::add);
-        return products;
+        GlobalResponse apiResponse = new GlobalResponse(200, "Registros Encontrados", "Registros Encontrados", products);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    public Product addProduct(NewProduct newProduct) {
+    public ResponseEntity<GlobalResponse> addProduct(NewProduct newProduct) {
         Store store = new Store();
         store.setId(newProduct.getStoreID());
 
@@ -45,19 +43,21 @@ public class ProductService {
         product.setDescription(newProduct.getDescription());
         product.setStore(store);
 
-
-        return productRepository.save(product);
+        Product savedProduct = productRepository.save(product);
+        GlobalResponse apiResponse = new GlobalResponse(200, "Producto Agregado", "Producto agregado exitosamente", savedProduct);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    public Product updateProduct(UpdateProduct updateProduct) {
-        if(updateProduct.getProductId() == 0){
-            return null;
+    public ResponseEntity<GlobalResponse> updateProduct(UpdateProduct updateProduct) {
+        if (updateProduct.getProductId() == 0) {
+            GlobalResponse apiResponse = new GlobalResponse(400, "Error", "ID de producto inválido", null);
+            return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
         }
+
         Store store = new Store();
         store.setId(updateProduct.getStoreID());
 
         Product product = new Product();
-
         product.setId(updateProduct.getProductId());
         product.setProductName(updateProduct.getProductName());
         product.setComercialName(updateProduct.getComercialName());
@@ -69,11 +69,27 @@ public class ProductService {
         product.setDescription(updateProduct.getDescription());
         product.setStore(store);
 
-        return productRepository.save(product);
+        Product updatedProduct = productRepository.save(product);
+        GlobalResponse apiResponse = new GlobalResponse(200, "Producto Actualizado", "Producto actualizado exitosamente", updatedProduct);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    public Product getProductById(Long id) {
-        return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + id));
+    public ResponseEntity<GlobalResponse> getProductById(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + id));
+        GlobalResponse apiResponse = new GlobalResponse(200, "Producto Encontrado", "Producto encontrado exitosamente", product);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
 
+    public ResponseEntity<GlobalResponse> deleteProductById(Long id) {
+        if (productRepository.existsById(id)) {
+            productRepository.deleteById(id);
+            GlobalResponse apiResponse = new GlobalResponse(200, "Producto Eliminado", "Producto eliminado exitosamente", null);
+            return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+        } else {
+            GlobalResponse apiResponse = new GlobalResponse(404, "Error", "Producto no encontrado con id: " + id, null);
+            return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
+        }
     }
 }
+

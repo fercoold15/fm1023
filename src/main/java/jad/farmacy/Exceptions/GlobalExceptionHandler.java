@@ -58,4 +58,11 @@ public class GlobalExceptionHandler {
         errorDetail.setProperty("description", "The requested store could not be found.");
         return errorDetail;
     }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ProblemDetail handleProductNotFoundException(ProductNotFoundException exception) {
+        ProblemDetail errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(HttpStatus.NOT_FOUND.value()), exception.getMessage());
+        errorDetail.setProperty("description", "The requested store could not be found.");
+        return errorDetail;
+    }
 }
