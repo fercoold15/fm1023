@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 @Service
@@ -31,7 +33,8 @@ public class ProductService {
     public ResponseEntity<GlobalResponse> addProduct(NewProduct newProduct) {
         Store store = new Store();
         store.setId(newProduct.getStoreID());
-
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(newProduct.getExpirationDate(), inputFormatter);
         Product product = new Product();
         product.setProductName(newProduct.getProductName());
         product.setComercialName(newProduct.getComercialName());
@@ -40,6 +43,8 @@ public class ProductService {
         product.setPresentation(newProduct.getPresentation());
         product.setQrCode(newProduct.getQrCode());
         product.setQuantity(newProduct.getQuantity());
+        product.setLote(newProduct.getLote());
+        product.setExpirationDate(date);
         product.setDescription(newProduct.getDescription());
         product.setStore(store);
 
@@ -56,7 +61,8 @@ public class ProductService {
 
         Store store = new Store();
         store.setId(updateProduct.getStoreID());
-
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(updateProduct.getExpirationDate(), inputFormatter);
         Product product = new Product();
         product.setId(updateProduct.getProductId());
         product.setProductName(updateProduct.getProductName());
@@ -66,7 +72,9 @@ public class ProductService {
         product.setPresentation(updateProduct.getPresentation());
         product.setQrCode(updateProduct.getQrCode());
         product.setQuantity(updateProduct.getQuantity());
+        product.setExpirationDate(date);
         product.setDescription(updateProduct.getDescription());
+        product.setLote(updateProduct.getLote());
         product.setStore(store);
 
         Product updatedProduct = productRepository.save(product);

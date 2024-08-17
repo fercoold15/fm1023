@@ -15,12 +15,31 @@ public class NewProduct {
      String presentation;
 
      String qrCode;
+     String expirationDate;
 
      int quantity;
 
      String description;
 
      long storeID;
+
+     String lote;
+
+    public String getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(String expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public String getLote() {
+        return lote;
+    }
+
+    public void setLote(String lote) {
+        this.lote = lote;
+    }
 
     public String getProductName() {
         return productName;

@@ -15,6 +15,10 @@ public class UpdateProduct {
 
     String qrCode;
 
+    String expirationDate;
+
+    String lote;
+
     int quantity;
 
     String description;
@@ -99,5 +103,21 @@ public class UpdateProduct {
 
     public void setStoreID(long storeID) {
         this.storeID = storeID;
+    }
+
+    public String getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(String expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public String getLote() {
+        return lote;
+    }
+
+    public void setLote(String lote) {
+        this.lote = lote;
     }
 }

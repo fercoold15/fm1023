@@ -42,18 +42,28 @@ public class StoreService {
     }
 
     public ResponseEntity<GlobalResponse> updateStore(UpdateStore updateStore) {
-        if(updateStore.getStoreId() == 0){
-            return null;
+        System.out.println("Received storeId: " + updateStore.getStoreId());
+        if (updateStore.getStoreId() == 0) {
+            GlobalResponse apiResponse = new GlobalResponse(400, "Invalid Store ID", "The store ID provided is invalid.", null);
+            return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
         }
 
-        Store store = new Store();
-        store.setId(updateStore.getStoreId());
+        Optional<Store> existingStore = storeRepository.findById(updateStore.getStoreId());
+        if (!existingStore.isPresent()) {
+            GlobalResponse apiResponse = new GlobalResponse(404, "Store Not Found", "The store with the given ID was not found.", null);
+            return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
+        }
+
+        Store store = existingStore.get();
         store.setStoreName(updateStore.getStoreName());
         store.setStoreDirection(updateStore.getStoreDirection());
-        store=storeRepository.save(store);
-        GlobalResponse apiResponse = new GlobalResponse(200,"Registros Encontrados", "Registros Encontrados", store);
+
+        store = storeRepository.save(store);
+
+        GlobalResponse apiResponse = new GlobalResponse(200, "Store Updated", "The store details were successfully updated.", store);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
+
 
     public ResponseEntity<GlobalResponse> getStoreById(Long id) {
         Optional<Store> store = storeRepository.findById(id);
