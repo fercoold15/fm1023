@@ -1,6 +1,7 @@
 package jad.farmacy.Service;
 
 import jad.farmacy.Entity.Patient;
+import jad.farmacy.Exceptions.PatientNotFoundException;
 import jad.farmacy.Repository.PatientRepository;
 import jad.farmacy.configurations.GlobalResponse;
 import jad.farmacy.dto.NewPatient;
