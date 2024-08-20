@@ -2,25 +2,46 @@ package jad.farmacy.dto;
 
 public class UpdateHistoricalVisit {
     private Long historicalVisitId;
-    private String visitDate;
     private Long patientId;
     private String description;
 
+    private String treatments;
+    private String reason;
+    private String notes;
+
     public Long getHistoricalVisitId() {
         return historicalVisitId;
+    }
+
+    public String getTreatments() {
+        return treatments;
+    }
+
+    public void setTreatments(String treatments) {
+        this.treatments = treatments;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public void setHistoricalVisitId(Long historicalVisitId) {
         this.historicalVisitId = historicalVisitId;
     }
 
-    public String getVisitDate() {
-        return visitDate;
-    }
 
-    public void setVisitDate(String visitDate) {
-        this.visitDate = visitDate;
-    }
 
     public Long getPatientId() {
         return patientId;

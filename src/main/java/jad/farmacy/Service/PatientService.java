@@ -31,9 +31,14 @@ public class PatientService {
     public ResponseEntity<GlobalResponse> addPatient(NewPatient newPatient) {
         Patient patient = new Patient();
         patient.setPatientName(newPatient.getPatientName());
+        patient.setPatientAge(newPatient.getPatientAge());
         patient.setPatientPhone(newPatient.getPatientPhone());
         patient.setPatientAddress(newPatient.getPatientAddress());
         patient.setDescription(newPatient.getDescription());
+        patient.setPhysicExam(newPatient.getPhysicExam());
+        patient.setTreatment(newPatient.getTreatment());
+        patient.setResearch(newPatient.getResearch());
+        patient.setNotes(newPatient.getNotes());
 
         Patient savedPatient = patientRepository.save(patient);
         GlobalResponse apiResponse = new GlobalResponse(200, "Paciente Agregado", "Paciente agregado exitosamente", savedPatient);
@@ -49,9 +54,14 @@ public class PatientService {
         Patient patient = new Patient();
         patient.setId(updatePatient.getPatientId());
         patient.setPatientName(updatePatient.getPatientName());
+        patient.setPatientAge(updatePatient.getPatientAge());
         patient.setPatientPhone(updatePatient.getPatientPhone());
         patient.setPatientAddress(updatePatient.getPatientAddress());
         patient.setDescription(updatePatient.getDescription());
+        patient.setPhysicExam(updatePatient.getPhysicExam());
+        patient.setTreatment(updatePatient.getTreatment());
+        patient.setResearch(updatePatient.getResearch());
+        patient.setNotes(updatePatient.getNotes());
 
         Patient updatedPatient = patientRepository.save(patient);
         GlobalResponse apiResponse = new GlobalResponse(200, "Paciente Actualizado", "Paciente actualizado exitosamente", updatedPatient);
