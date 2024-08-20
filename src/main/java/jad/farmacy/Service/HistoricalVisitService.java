@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,7 @@ import java.util.List;
 public class HistoricalVisitService {
     private final HistoricalVisitRepository historicalVisitRepository;
     private final PatientRepository patientRepository;
+    ZoneId zoneId = ZoneId.of("UTC-6");
 
     public HistoricalVisitService(HistoricalVisitRepository historicalVisitRepository, PatientRepository patientRepository) {
         this.historicalVisitRepository = historicalVisitRepository;
@@ -39,12 +42,14 @@ public class HistoricalVisitService {
         Patient patient = patientRepository.findById(newHistoricalVisit.getPatientId())
                 .orElseThrow(() -> new PatientNotFoundException("Patient not found with id: " + newHistoricalVisit.getPatientId()));
 
-        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate date = LocalDate.parse(newHistoricalVisit.getVisitDate(), inputFormatter);
+        LocalDate date = LocalDate.from(LocalDateTime.now(zoneId));
         HistoricalVisit historicalVisit = new HistoricalVisit();
         historicalVisit.setVisitDate(date);
         historicalVisit.setPatient(patient);
         historicalVisit.setDescription(newHistoricalVisit.getDescription());
+        historicalVisit.setTreatments(newHistoricalVisit.getTreatments());
+        historicalVisit.setReason(newHistoricalVisit.getReason());
+        historicalVisit.setNotes(newHistoricalVisit.getNotes());
 
         HistoricalVisit savedVisit = historicalVisitRepository.save(historicalVisit);
         GlobalResponse apiResponse = new GlobalResponse(200, "Visita Histórica Agregada", "Visita histórica agregada exitosamente", savedVisit);
@@ -59,13 +64,15 @@ public class HistoricalVisitService {
 
         Patient patient = patientRepository.findById(updateHistoricalVisit.getPatientId())
                 .orElseThrow(() -> new PatientNotFoundException("Patient not found with id: " + updateHistoricalVisit.getPatientId()));
-        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate date = LocalDate.parse(updateHistoricalVisit.getVisitDate(), inputFormatter);
+        LocalDate date = LocalDate.from(LocalDateTime.now(zoneId));
         HistoricalVisit historicalVisit = new HistoricalVisit();
         historicalVisit.setId(updateHistoricalVisit.getHistoricalVisitId());
         historicalVisit.setVisitDate(date);
         historicalVisit.setPatient(patient);
         historicalVisit.setDescription(updateHistoricalVisit.getDescription());
+        historicalVisit.setTreatments(updateHistoricalVisit.getTreatments());
+        historicalVisit.setReason(updateHistoricalVisit.getReason());
+        historicalVisit.setNotes(updateHistoricalVisit.getNotes());
 
         HistoricalVisit updatedVisit = historicalVisitRepository.save(historicalVisit);
         GlobalResponse apiResponse = new GlobalResponse(200, "Visita Histórica Actualizada", "Visita histórica actualizada exitosamente", updatedVisit);

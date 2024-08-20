@@ -1,24 +1,37 @@
 package jad.farmacy.dto;
 
-import jad.farmacy.Entity.Patient;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-
-import java.time.LocalDate;
 
 public class NewHistoricalVisit {
 
-    private String visitDate;
     private Long patientId;
     private String description;
 
-    public String getVisitDate() {
-        return visitDate;
+    private String treatments;
+    private String reason;
+    private String notes;
+
+    public String getTreatments() {
+        return treatments;
     }
 
-    public void setVisitDate(String visitDate) {
-        this.visitDate = visitDate;
+    public void setTreatments(String treatments) {
+        this.treatments = treatments;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public Long getPatientId() {

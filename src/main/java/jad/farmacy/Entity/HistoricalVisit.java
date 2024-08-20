@@ -22,6 +22,39 @@ public class HistoricalVisit {
     @Column(name = "DESCRIPTION")
     private String description;
 
+    @Column(name = "TREATMENTS")
+    private String treatments;
+
+    @Column(name = "REASON")
+    private String reason;
+
+    @Column(name = "notes")
+    private String notes;
+
+    public String getTreatments() {
+        return treatments;
+    }
+
+    public void setTreatments(String treatments) {
+        this.treatments = treatments;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
     public Long getId() {
         return id;
     }
