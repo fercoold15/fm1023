@@ -14,6 +14,15 @@ public class NewPatient {
     private String notes;
 
     private String reason;
+    private String registeringDate;
+
+    public String getRegisteringDate() {
+        return registeringDate;
+    }
+
+    public void setRegisteringDate(String registeringDate) {
+        this.registeringDate = registeringDate;
+    }
 
     public String getReason() {
         return reason;

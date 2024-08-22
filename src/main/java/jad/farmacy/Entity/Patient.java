@@ -2,6 +2,8 @@ package jad.farmacy.Entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Table(name = "PATIENTS")
 @Entity
 public class Patient {
@@ -41,6 +43,17 @@ public class Patient {
     @Lob
     @Column(name = "NOTES")
     private String notes;
+
+    @Column(name = "REGISTERING_DATE")
+    private LocalDate registeringDate;
+
+    public LocalDate getRegisteringDate() {
+        return registeringDate;
+    }
+
+    public void setRegisteringDate(LocalDate registeringDate) {
+        this.registeringDate = registeringDate;
+    }
 
     public String getReason() {
         return reason;

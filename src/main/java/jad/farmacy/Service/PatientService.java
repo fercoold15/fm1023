@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,8 @@ public class PatientService {
     }
 
     public ResponseEntity<GlobalResponse> addPatient(NewPatient newPatient) {
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(newPatient.getRegisteringDate(), inputFormatter);
         Patient patient = new Patient();
         patient.setPatientName(newPatient.getPatientName());
         patient.setPatientAge(newPatient.getPatientAge());
@@ -40,6 +44,7 @@ public class PatientService {
         patient.setResearch(newPatient.getResearch());
         patient.setNotes(newPatient.getNotes());
         patient.setReason(newPatient.getReason());
+        patient.setRegisteringDate(date);
 
         Patient savedPatient = patientRepository.save(patient);
         GlobalResponse apiResponse = new GlobalResponse(200, "Paciente Agregado", "Paciente agregado exitosamente", savedPatient);
@@ -51,6 +56,8 @@ public class PatientService {
             GlobalResponse apiResponse = new GlobalResponse(400, "Error", "ID de paciente inválido", null);
             return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
         }
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(updatePatient.getRegisteringDate(), inputFormatter);
 
         Patient patient = new Patient();
         patient.setId(updatePatient.getPatientId());
@@ -64,6 +71,7 @@ public class PatientService {
         patient.setResearch(updatePatient.getResearch());
         patient.setNotes(updatePatient.getNotes());
         patient.setReason(updatePatient.getReason());
+        patient.setRegisteringDate(date);
 
         Patient updatedPatient = patientRepository.save(patient);
         GlobalResponse apiResponse = new GlobalResponse(200, "Paciente Actualizado", "Paciente actualizado exitosamente", updatedPatient);
