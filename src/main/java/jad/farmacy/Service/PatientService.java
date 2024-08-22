@@ -39,6 +39,7 @@ public class PatientService {
         patient.setTreatment(newPatient.getTreatment());
         patient.setResearch(newPatient.getResearch());
         patient.setNotes(newPatient.getNotes());
+        patient.setReason(newPatient.getReason());
 
         Patient savedPatient = patientRepository.save(patient);
         GlobalResponse apiResponse = new GlobalResponse(200, "Paciente Agregado", "Paciente agregado exitosamente", savedPatient);
@@ -62,6 +63,7 @@ public class PatientService {
         patient.setTreatment(updatePatient.getTreatment());
         patient.setResearch(updatePatient.getResearch());
         patient.setNotes(updatePatient.getNotes());
+        patient.setReason(updatePatient.getReason());
 
         Patient updatedPatient = patientRepository.save(patient);
         GlobalResponse apiResponse = new GlobalResponse(200, "Paciente Actualizado", "Paciente actualizado exitosamente", updatedPatient);

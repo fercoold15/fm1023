@@ -35,8 +35,20 @@ public class Patient {
     private String research;
 
     @Lob
+    @Column(name = "REASON")
+    private String reason;
+
+    @Lob
     @Column(name = "NOTES")
     private String notes;
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
 
     public String getPatientAge() {
         return patientAge;
