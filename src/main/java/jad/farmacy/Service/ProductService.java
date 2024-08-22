@@ -23,6 +23,7 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
+
     public ResponseEntity<GlobalResponse> allProducts() {
         List<Product> products = new ArrayList<>();
         productRepository.findAll().forEach(products::add);
