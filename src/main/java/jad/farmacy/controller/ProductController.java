@@ -35,6 +35,10 @@ public class ProductController {
     public ResponseEntity<GlobalResponse> getProductById(@PathVariable Long id) {
         return productService.getProductById(id);
     }
+    @GetMapping("byCode/{code}")
+    public ResponseEntity<GlobalResponse> getProductByCode(@PathVariable String code) {
+        return productService.getProductByBarcode(code);
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<GlobalResponse> deleteProductById(@PathVariable Long id) {

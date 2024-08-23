@@ -90,6 +90,15 @@ public class ProductService {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
+    public ResponseEntity<GlobalResponse> getProductByBarcode(String code) {
+        Product product = productRepository.findByBarcode(code);
+        if(product==null){
+            throw new ProductNotFoundException("Product not found with id: " + code);
+        }
+        GlobalResponse apiResponse = new GlobalResponse(200, "Producto Encontrado", "Producto encontrado exitosamente", product);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
     public ResponseEntity<GlobalResponse> deleteProductById(Long id) {
         if (productRepository.existsById(id)) {
             productRepository.deleteById(id);
