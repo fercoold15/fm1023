@@ -4,6 +4,7 @@ import jad.farmacy.Entity.Product;
 import jad.farmacy.Entity.Store;
 import jad.farmacy.Exceptions.ProductNotFoundException;
 import jad.farmacy.Repository.ProductRepository;
+import jad.farmacy.Repository.StoreRepository;
 import jad.farmacy.configurations.GlobalResponse;
 import jad.farmacy.dto.NewProduct;
 import jad.farmacy.dto.UpdateProduct;
@@ -15,12 +16,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
+    private final StoreRepository storeRepository;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, StoreRepository storeRepository) {
         this.productRepository = productRepository;
+        this.storeRepository = storeRepository;
     }
 
 
@@ -92,12 +97,24 @@ public class ProductService {
 
     public ResponseEntity<GlobalResponse> getProductByBarcode(String code) {
         Product product = productRepository.findByBarcode(code);
-        if(product==null){
+
+        if (product == null) {
             throw new ProductNotFoundException("Product not found with id: " + code);
         }
+
+        Optional<Store> storeOptional = storeRepository.findById(product.getStore().getId());
+
+        if (storeOptional.isPresent()) {
+            Store store = storeOptional.get();
+            product.setStore(store);
+        } else {
+            product.setStore(null);
+        }
+
         GlobalResponse apiResponse = new GlobalResponse(200, "Producto Encontrado", "Producto encontrado exitosamente", product);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
+
 
     public ResponseEntity<GlobalResponse> deleteProductById(Long id) {
         if (productRepository.existsById(id)) {

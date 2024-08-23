@@ -2,6 +2,7 @@ package jad.farmacy.Service;
 
 import jad.farmacy.Entity.HistoricalVisit;
 import jad.farmacy.Entity.Patient;
+import jad.farmacy.Entity.Store;
 import jad.farmacy.Exceptions.HistoricalVisitNotFoundException;
 import jad.farmacy.Exceptions.PatientNotFoundException;
 import jad.farmacy.Exceptions.ProductNotFoundException;
@@ -20,6 +21,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HistoricalVisitService {
@@ -93,12 +95,28 @@ public class HistoricalVisitService {
 
     public ResponseEntity<GlobalResponse> getHistoricalVisitByPatient(Long id) {
         List<HistoricalVisit> historicalVisits = historicalVisitRepository.getHistoricalByPatient(id);
-        if(historicalVisits.size()==0){
+
+        if (historicalVisits.isEmpty()) {
             throw new HistoricalVisitNotFoundException("Historical not found with patientId: " + id);
         }
-        GlobalResponse apiResponse = new GlobalResponse(200, "Visita Histórica Encontrada", "Visita histórica encontrada exitosamente", historicalVisits);
+
+        Optional<Patient> patient = patientRepository.findById(id);
+        List<HistoricalVisit> loadedVisits = new ArrayList<>();
+        for (HistoricalVisit historicalVisit: historicalVisits) {
+            if (patient.isPresent()) {
+                Patient patient1 = patient.get();
+                historicalVisit.setPatient(patient1);
+            } else {
+                historicalVisit.setPatient(null);
+            }
+            loadedVisits.add(historicalVisit);
+
+        }
+
+        GlobalResponse apiResponse = new GlobalResponse(200, "Visita Histórica Encontrada", "Visita histórica encontrada exitosamente", loadedVisits);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
+
 
     public ResponseEntity<GlobalResponse> deleteHistoricalVisitById(Long id) {
         if (historicalVisitRepository.existsById(id)) {
