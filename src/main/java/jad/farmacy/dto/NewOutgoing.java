@@ -8,7 +8,7 @@ public class NewOutgoing {
     private String description;
     private String amount;
     private String value;
-    private LocalDate billDate;
+    private String billDate;
     private long userID;
 
     public String getDescription() {
@@ -35,11 +35,11 @@ public class NewOutgoing {
         this.value = value;
     }
 
-    public LocalDate getBillDate() {
+    public String getBillDate() {
         return billDate;
     }
 
-    public void setBillDate(LocalDate billDate) {
+    public void setBillDate(String billDate) {
         this.billDate = billDate;
     }
 

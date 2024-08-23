@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,12 +38,13 @@ public class OutgoingService {
     public ResponseEntity<GlobalResponse> addOutgoing(NewOutgoing newOutgoing) {
         User user = new User();
         user.setId(newOutgoing.getUserID());
-
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(newOutgoing.getBillDate(), inputFormatter);
         Outgoing outgoing = new Outgoing();
         outgoing.setDescription(newOutgoing.getDescription());
         outgoing.setAmount(newOutgoing.getAmount());
         outgoing.setValue(newOutgoing.getValue());
-        outgoing.setBillDate(newOutgoing.getBillDate());
+        outgoing.setBillDate(date);
         outgoing.setUser(user);
 
         Outgoing savedOutgoing = outgoingRepository.save(outgoing);
@@ -57,14 +60,15 @@ public class OutgoingService {
 
         User user = new User();
         user.setId(updateOutgoing.getUserID());
-
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(updateOutgoing.getBillDate(), inputFormatter);
 
         Outgoing outgoing = new Outgoing();
         outgoing.setId(updateOutgoing.getOutgoingID());
         outgoing.setDescription(updateOutgoing.getDescription());
         outgoing.setAmount(updateOutgoing.getAmount());
         outgoing.setValue(updateOutgoing.getValue());
-        outgoing.setBillDate(updateOutgoing.getBillDate());
+        outgoing.setBillDate(date);
         outgoing.setUser(user);
 
         Outgoing updatedOutgoing = outgoingRepository.save(outgoing);
