@@ -37,6 +37,11 @@ public class HistoricalVisitController {
         return historicalVisitService.getHistoricalVisitById(id);
     }
 
+    @GetMapping("byPatient/{id}")
+    public ResponseEntity<GlobalResponse> getHistoricalVisitByPatientId(@PathVariable Long id) {
+        return historicalVisitService.getHistoricalVisitByPatient(id);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<GlobalResponse> deleteHistoricalVisitById(@PathVariable Long id) {
         return historicalVisitService.deleteHistoricalVisitById(id);

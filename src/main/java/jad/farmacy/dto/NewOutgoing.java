@@ -10,6 +10,15 @@ public class NewOutgoing {
     private String value;
     private String billDate;
     private long userID;
+    private long storeID;
+
+    public long getStoreID() {
+        return storeID;
+    }
+
+    public void setStoreID(long storeID) {
+        this.storeID = storeID;
+    }
 
     public String getDescription() {
         return description;

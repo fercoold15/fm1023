@@ -9,6 +9,27 @@ public class UpdateHistoricalVisit {
     private String reason;
     private String notes;
 
+    private String physicExam;
+
+    private String research;
+
+
+    public String getPhysicExam() {
+        return physicExam;
+    }
+
+    public void setPhysicExam(String physicExam) {
+        this.physicExam = physicExam;
+    }
+
+    public String getResearch() {
+        return research;
+    }
+
+    public void setResearch(String research) {
+        this.research = research;
+    }
+
     public Long getHistoricalVisitId() {
         return historicalVisitId;
     }

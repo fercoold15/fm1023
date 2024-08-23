@@ -31,6 +31,31 @@ public class HistoricalVisit {
     @Column(name = "notes")
     private String notes;
 
+    @Lob
+    @Column(name = "RESEARCH")
+    private String research;
+
+    @Lob
+    @Column(name = "PHYSIC_EXAM")
+    private String physicExam;
+
+
+    public String getResearch() {
+        return research;
+    }
+
+    public void setResearch(String research) {
+        this.research = research;
+    }
+
+    public String getPhysicExam() {
+        return physicExam;
+    }
+
+    public void setPhysicExam(String physicExam) {
+        this.physicExam = physicExam;
+    }
+
     public String getTreatments() {
         return treatments;
     }

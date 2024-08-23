@@ -4,6 +4,7 @@ import jad.farmacy.Entity.HistoricalVisit;
 import jad.farmacy.Entity.Patient;
 import jad.farmacy.Exceptions.HistoricalVisitNotFoundException;
 import jad.farmacy.Exceptions.PatientNotFoundException;
+import jad.farmacy.Exceptions.ProductNotFoundException;
 import jad.farmacy.Repository.HistoricalVisitRepository;
 import jad.farmacy.Repository.PatientRepository;
 import jad.farmacy.configurations.GlobalResponse;
@@ -50,6 +51,8 @@ public class HistoricalVisitService {
         historicalVisit.setTreatments(newHistoricalVisit.getTreatments());
         historicalVisit.setReason(newHistoricalVisit.getReason());
         historicalVisit.setNotes(newHistoricalVisit.getNotes());
+        historicalVisit.setPhysicExam(newHistoricalVisit.getPhysicExam());
+        historicalVisit.setResearch(newHistoricalVisit.getResearch());
 
         HistoricalVisit savedVisit = historicalVisitRepository.save(historicalVisit);
         GlobalResponse apiResponse = new GlobalResponse(200, "Visita Histórica Agregada", "Visita histórica agregada exitosamente", savedVisit);
@@ -73,6 +76,8 @@ public class HistoricalVisitService {
         historicalVisit.setTreatments(updateHistoricalVisit.getTreatments());
         historicalVisit.setReason(updateHistoricalVisit.getReason());
         historicalVisit.setNotes(updateHistoricalVisit.getNotes());
+        historicalVisit.setPhysicExam(updateHistoricalVisit.getPhysicExam());
+        historicalVisit.setResearch(updateHistoricalVisit.getResearch());
 
         HistoricalVisit updatedVisit = historicalVisitRepository.save(historicalVisit);
         GlobalResponse apiResponse = new GlobalResponse(200, "Visita Histórica Actualizada", "Visita histórica actualizada exitosamente", updatedVisit);
@@ -83,6 +88,15 @@ public class HistoricalVisitService {
         HistoricalVisit historicalVisit = historicalVisitRepository.findById(id)
                 .orElseThrow(() -> new HistoricalVisitNotFoundException("Historical visit not found with id: " + id));
         GlobalResponse apiResponse = new GlobalResponse(200, "Visita Histórica Encontrada", "Visita histórica encontrada exitosamente", historicalVisit);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+    public ResponseEntity<GlobalResponse> getHistoricalVisitByPatient(Long id) {
+        List<HistoricalVisit> historicalVisits = historicalVisitRepository.getHistoricalByPatient(id);
+        if(historicalVisits.size()==0){
+            throw new HistoricalVisitNotFoundException("Historical not found with patientId: " + id);
+        }
+        GlobalResponse apiResponse = new GlobalResponse(200, "Visita Histórica Encontrada", "Visita histórica encontrada exitosamente", historicalVisits);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 

@@ -10,6 +10,16 @@ public class UpdateOutgoing {
     private String billDate;
     private long userID;
 
+    private long storeID;
+
+    public long getStoreID() {
+        return storeID;
+    }
+
+    public void setStoreID(long storeID) {
+        this.storeID = storeID;
+    }
+
     public long getOutgoingID() {
         return outgoingID;
     }
