@@ -24,8 +24,20 @@ public class Outgoing {
     private LocalDate billDate;
 
     @ManyToOne
-    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID", nullable = false)
+    @JoinColumn(name = "USER_ID", referencedColumnName = "id", nullable = false)
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "STORE_ID", referencedColumnName = "STORE_ID", nullable = false)
+    private Store store;
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
 
     public Long getId() {
         return id;
