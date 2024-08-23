@@ -1,6 +1,7 @@
 package jad.farmacy.Service;
 
 import jad.farmacy.Entity.Outgoing;
+import jad.farmacy.Entity.Store;
 import jad.farmacy.Entity.User;
 import jad.farmacy.Exceptions.OutgoingNotFoundException;
 import jad.farmacy.Repository.OutgoingRepository;
@@ -38,6 +39,9 @@ public class OutgoingService {
     public ResponseEntity<GlobalResponse> addOutgoing(NewOutgoing newOutgoing) {
         User user = new User();
         user.setId(newOutgoing.getUserID());
+
+        Store store = new Store();
+        store.setId(newOutgoing.getStoreID());
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date = LocalDate.parse(newOutgoing.getBillDate(), inputFormatter);
         Outgoing outgoing = new Outgoing();
@@ -45,6 +49,7 @@ public class OutgoingService {
         outgoing.setAmount(newOutgoing.getAmount());
         outgoing.setValue(newOutgoing.getValue());
         outgoing.setBillDate(date);
+        outgoing.setStore(store);
         outgoing.setUser(user);
 
         Outgoing savedOutgoing = outgoingRepository.save(outgoing);
@@ -60,6 +65,10 @@ public class OutgoingService {
 
         User user = new User();
         user.setId(updateOutgoing.getUserID());
+
+        Store store = new Store();
+        store.setId(updateOutgoing.getStoreID());
+
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date = LocalDate.parse(updateOutgoing.getBillDate(), inputFormatter);
 
@@ -69,6 +78,7 @@ public class OutgoingService {
         outgoing.setAmount(updateOutgoing.getAmount());
         outgoing.setValue(updateOutgoing.getValue());
         outgoing.setBillDate(date);
+        outgoing.setStore(store);
         outgoing.setUser(user);
 
         Outgoing updatedOutgoing = outgoingRepository.save(outgoing);

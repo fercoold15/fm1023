@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/outgoings")
+@RequestMapping("/outgoings")
 public class OutgoingController {
     private final OutgoingService outgoingService;
 
