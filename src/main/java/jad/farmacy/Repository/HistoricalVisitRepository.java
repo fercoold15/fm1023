@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface HistoricalVisitRepository extends CrudRepository<HistoricalVisit,Long> {
 
-    @Query(value = "SELECT * FROM HISTORICAL_VISIT WHERE PATIENT_ID=:PATIENT",nativeQuery = true)
+    @Query(value = "SELECT * FROM HISTORICAL_VISITS WHERE PATIENT_ID=:PATIENT",nativeQuery = true)
     List<HistoricalVisit> getHistoricalByPatient(@Param("PATIENT") long patient);
 }
