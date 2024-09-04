@@ -53,9 +53,13 @@ public class ProductService {
         product.setExpirationDate(date);
         product.setDescription(newProduct.getDescription());
         product.setStore(store);
-
+        product.setBlisterPerBox(newProduct.getBlistersPerBox());
+        product.setBillsPerBlister(newProduct.getBillsPerBlister());
+        product.setPricePerPill(newProduct.getPricePerPill());
+        product.setPricePerBlister(newProduct.getPricePerBlister());
+        product.setBrand(newProduct.getBrand());
         Product savedProduct = productRepository.save(product);
-        GlobalResponse apiResponse = new GlobalResponse(200, "Producto Agregado", "Producto agregado exitosamente", savedProduct);
+        GlobalResponse apiResponse = new GlobalResponse(200, "Producto Agregado", "Producto agregado exitosamente", null);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
@@ -64,7 +68,6 @@ public class ProductService {
             GlobalResponse apiResponse = new GlobalResponse(400, "Error", "ID de producto inválido", null);
             return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
         }
-
         Store store = new Store();
         store.setId(updateProduct.getStoreID());
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -82,9 +85,17 @@ public class ProductService {
         product.setDescription(updateProduct.getDescription());
         product.setLote(updateProduct.getLote());
         product.setStore(store);
-
+        product.setBlisterPerBox(updateProduct.getBlistersPerBox());
+        product.setBillsPerBlister(updateProduct.getBillsPerBlister());
+        product.setPricePerBlister(updateProduct.getPricePerBlister());
+        product.setPricePerPill(updateProduct.getPricePerPill());
+        product.setBrand(updateProduct.getBrand());
         Product updatedProduct = productRepository.save(product);
-        GlobalResponse apiResponse = new GlobalResponse(200, "Producto Actualizado", "Producto actualizado exitosamente", updatedProduct);
+        if(updatedProduct!=null){
+            GlobalResponse apiResponse = new GlobalResponse(400, "Error", "Ocurrio un Error al actualizar el Producto", null);
+            return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
+        }
+        GlobalResponse apiResponse = new GlobalResponse(200, "Producto Actualizado", "Producto actualizado exitosamente", null);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 

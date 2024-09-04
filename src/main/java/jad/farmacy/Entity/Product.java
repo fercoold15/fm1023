@@ -42,6 +42,59 @@ public class Product {
 
     @Column(name = "LOTE")
     private String lote;
+    @Column(name = "BLISTERS_PER_BOX")
+    private int blisterPerBox;
+    @Column(name = "BILLS_PER_BLISTER")
+    private int billsPerBlister;
+    @Column(name = "BRAND")
+    private String brand;
+
+    @Column(name = "PRICE_PER_BLISTER")
+    private double pricePerBlister;
+
+    @Column(name = "PRICE_PER_PILL")
+    private double pricePerPill;
+
+
+    public double getPricePerBlister() {
+        return pricePerBlister;
+    }
+
+    public void setPricePerBlister(double pricePerBlister) {
+        this.pricePerBlister = pricePerBlister;
+    }
+
+    public double getPricePerPill() {
+        return pricePerPill;
+    }
+
+    public void setPricePerPill(double pricePerPill) {
+        this.pricePerPill = pricePerPill;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public int getBlisterPerBox() {
+        return blisterPerBox;
+    }
+
+    public void setBlisterPerBox(int blisterPerBox) {
+        this.blisterPerBox = blisterPerBox;
+    }
+
+    public int getBillsPerBlister() {
+        return billsPerBlister;
+    }
+
+    public void setBillsPerBlister(int billsPerBlister) {
+        this.billsPerBlister = billsPerBlister;
+    }
 
     @ManyToOne
     @JoinColumn(name = "STORE_ID", referencedColumnName = "STORE_ID", nullable = false)
