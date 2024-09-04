@@ -25,6 +25,53 @@ public class UpdateProduct {
 
     long storeID;
 
+    int blistersPerBox;
+    int billsPerBlister;
+    String brand;
+
+    double pricePerPill;
+    double pricePerBlister;
+
+    public double getPricePerPill() {
+        return pricePerPill;
+    }
+
+    public void setPricePerPill(double pricePerPill) {
+        this.pricePerPill = pricePerPill;
+    }
+
+    public double getPricePerBlister() {
+        return pricePerBlister;
+    }
+
+    public void setPricePerBlister(double pricePerBlister) {
+        this.pricePerBlister = pricePerBlister;
+    }
+
+    public int getBlistersPerBox() {
+        return blistersPerBox;
+    }
+
+    public void setBlistersPerBox(int blistersPerBox) {
+        this.blistersPerBox = blistersPerBox;
+    }
+
+    public int getBillsPerBlister() {
+        return billsPerBlister;
+    }
+
+    public void setBillsPerBlister(int billsPerBlister) {
+        this.billsPerBlister = billsPerBlister;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
     public long getProductId() {
         return productId;
     }
