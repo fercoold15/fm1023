@@ -36,6 +36,13 @@ public class ProductService {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
+    public ResponseEntity<GlobalResponse> allProductsByStore(long storeID) {
+        List<Product> products = new ArrayList<>();
+        products=productRepository.findAllByStore(storeID);
+        GlobalResponse apiResponse = new GlobalResponse(200, "Registros Encontrados", "Registros Encontrados", products);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
     public ResponseEntity<GlobalResponse> addProduct(NewProduct newProduct) {
         Store store = new Store();
         store.setId(newProduct.getStoreID());

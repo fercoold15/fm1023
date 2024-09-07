@@ -21,6 +21,11 @@ public class ProductController {
         return productService.allProducts();
     }
 
+    @GetMapping("/{storeID}")
+    public ResponseEntity<GlobalResponse> getAllProducts(@PathVariable Long storeID) {
+        return productService.allProductsByStore(storeID);
+    }
+
     @PostMapping
     public ResponseEntity<GlobalResponse> addProduct(@RequestBody NewProduct newProduct) {
         return productService.addProduct(newProduct);

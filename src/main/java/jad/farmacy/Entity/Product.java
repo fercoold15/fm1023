@@ -54,6 +54,9 @@ public class Product {
 
     @Column(name = "PRICE_PER_PILL")
     private double pricePerPill;
+    @ManyToOne
+    @JoinColumn(name = "STORE_ID", referencedColumnName = "STORE_ID", nullable = false)
+    private Store store;
 
 
     public double getPricePerBlister() {
@@ -96,9 +99,7 @@ public class Product {
         this.billsPerBlister = billsPerBlister;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "STORE_ID", referencedColumnName = "STORE_ID", nullable = false)
-    private Store store;
+
 
     public Long getId() {
         return id;
