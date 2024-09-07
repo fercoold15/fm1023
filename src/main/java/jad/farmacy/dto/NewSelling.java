@@ -58,14 +58,12 @@ public class NewSelling {
         private int quantity;
         private double total;
 
+        private String sellingUnit;
+
         // Constructor
         public NewSellingDetail() {}
 
-        public NewSellingDetail(Long productId, int quantity, double total) {
-            this.productId = productId;
-            this.quantity = quantity;
-            this.total = total;
-        }
+
 
         // Getters y Setters
         public Long getProductId() {
@@ -90,6 +88,14 @@ public class NewSelling {
 
         public void setTotal(double total) {
             this.total = total;
+        }
+
+        public String getSellingUnit() {
+            return sellingUnit;
+        }
+
+        public void setSellingUnit(String sellingUnit) {
+            this.sellingUnit = sellingUnit;
         }
     }
 }

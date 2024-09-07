@@ -65,6 +65,10 @@ public class ProductService {
         product.setPricePerPill(newProduct.getPricePerPill());
         product.setPricePerBlister(newProduct.getPricePerBlister());
         product.setBrand(newProduct.getBrand());
+        product.setSellByBox(newProduct.isSellByBox());
+        product.setSellByBlister(newProduct.isSellByBlister());
+        product.setSellByPill(newProduct.isSellByPill());
+        product.setPillType(newProduct.isPillType());
         Product savedProduct = productRepository.save(product);
         GlobalResponse apiResponse = new GlobalResponse(200, "Producto Agregado", "Producto agregado exitosamente", null);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
@@ -97,6 +101,10 @@ public class ProductService {
         product.setPricePerBlister(updateProduct.getPricePerBlister());
         product.setPricePerPill(updateProduct.getPricePerPill());
         product.setBrand(updateProduct.getBrand());
+        product.setSellByBox(updateProduct.isSellByBox());
+        product.setSellByBlister(updateProduct.isSellByBlister());
+        product.setSellByPill(updateProduct.isSellByPill());
+        product.setPillType(updateProduct.isPillType());
         Product updatedProduct = productRepository.save(product);
         if(updatedProduct!=null){
             GlobalResponse apiResponse = new GlobalResponse(400, "Error", "Ocurrio un Error al actualizar el Producto", null);
