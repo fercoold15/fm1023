@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,7 @@ import java.util.Optional;
 public class ProductService {
     private final ProductRepository productRepository;
     private final StoreRepository storeRepository;
-
+    ZoneId zoneId = ZoneId.of("UTC-6");
     public ProductService(ProductRepository productRepository, StoreRepository storeRepository) {
         this.productRepository = productRepository;
         this.storeRepository = storeRepository;
@@ -33,6 +35,21 @@ public class ProductService {
         List<Product> products = new ArrayList<>();
         productRepository.findAll().forEach(products::add);
         GlobalResponse apiResponse = new GlobalResponse(200, "Registros Encontrados", "Registros Encontrados", products);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+    public ResponseEntity<GlobalResponse> getProductsExpiringInNextTwoMonths() {
+        LocalDate today = LocalDate.from(LocalDateTime.now(zoneId));
+        LocalDate twoMonthsLater = today.plusMonths(2);
+
+        List<Product> expiringProducts = productRepository.findProductsExpiringInNextTwoMonths(today, twoMonthsLater);
+
+        if (expiringProducts.isEmpty()) {
+            GlobalResponse apiResponse = new GlobalResponse(404, "No se encontraron productos", "No hay productos que venzan en los próximos 2 meses", null);
+            return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
+        }
+
+        GlobalResponse apiResponse = new GlobalResponse(200, "Productos encontrados", "Productos que vencen en los próximos 2 meses encontrados exitosamente", expiringProducts);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
@@ -122,22 +139,18 @@ public class ProductService {
     }
 
     public ResponseEntity<GlobalResponse> getProductByBarcode(String code) {
-        Product product = productRepository.findByBarcode(code);
+        List<Product> products = productRepository.findByBarcode(code);
 
-        if (product == null) {
-            throw new ProductNotFoundException("Product not found with id: " + code);
+        if (products == null || products.isEmpty()) {
+            throw new ProductNotFoundException("Product not found with barcode: " + code);
         }
 
-        Optional<Store> storeOptional = storeRepository.findById(product.getStore().getId());
+        products.forEach(product -> {
+            Optional<Store> storeOptional = storeRepository.findById(product.getStore().getId());
+            product.setStore(storeOptional.orElse(null));
+        });
 
-        if (storeOptional.isPresent()) {
-            Store store = storeOptional.get();
-            product.setStore(store);
-        } else {
-            product.setStore(null);
-        }
-
-        GlobalResponse apiResponse = new GlobalResponse(200, "Producto Encontrado", "Producto encontrado exitosamente", product);
+        GlobalResponse apiResponse = new GlobalResponse(200, "Producto Encontrado", "Producto encontrado exitosamente", products);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 

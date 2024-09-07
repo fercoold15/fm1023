@@ -21,6 +21,11 @@ public class ProductController {
         return productService.allProducts();
     }
 
+    @GetMapping("/ProductsExpiring")
+    public ResponseEntity<GlobalResponse> getProductsExpiring() {
+        return productService.getProductsExpiringInNextTwoMonths();
+    }
+
     @GetMapping("/{storeID}")
     public ResponseEntity<GlobalResponse> getAllProducts(@PathVariable Long storeID) {
         return productService.allProductsByStore(storeID);

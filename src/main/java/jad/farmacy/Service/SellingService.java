@@ -57,7 +57,6 @@ public class SellingService {
                 }
             }
 
-            // Calculate the total price based on the selling unit
             double total = 0.0;
 
             switch (sellingUnit.toLowerCase()) {

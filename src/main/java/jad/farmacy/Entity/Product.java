@@ -33,7 +33,6 @@ public class Product {
 
     @Column(name = "QUANTITY")
     private int quantity;
-
     @Column(name = "DESCRIPTION")
     private String description;
 
@@ -57,8 +56,6 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "STORE_ID", referencedColumnName = "STORE_ID", nullable = false)
     private Store store;
-
-
     @Column(name = "SELL_BY_PILL")
     private boolean sellByPill;
 
