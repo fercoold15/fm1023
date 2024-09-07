@@ -32,6 +32,46 @@ public class UpdateProduct {
     double pricePerPill;
     double pricePerBlister;
 
+    private boolean sellByPill;
+
+    private boolean sellByBlister;
+
+    private boolean sellByBox;
+
+    private boolean isPillType;
+
+    public boolean isSellByPill() {
+        return sellByPill;
+    }
+
+    public void setSellByPill(boolean sellByPill) {
+        this.sellByPill = sellByPill;
+    }
+
+    public boolean isSellByBlister() {
+        return sellByBlister;
+    }
+
+    public void setSellByBlister(boolean sellByBlister) {
+        this.sellByBlister = sellByBlister;
+    }
+
+    public boolean isSellByBox() {
+        return sellByBox;
+    }
+
+    public void setSellByBox(boolean sellByBox) {
+        this.sellByBox = sellByBox;
+    }
+
+    public boolean isPillType() {
+        return isPillType;
+    }
+
+    public void setPillType(boolean pillType) {
+        isPillType = pillType;
+    }
+
     public double getPricePerPill() {
         return pricePerPill;
     }

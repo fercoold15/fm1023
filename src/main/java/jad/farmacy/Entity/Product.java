@@ -59,6 +59,50 @@ public class Product {
     private Store store;
 
 
+    @Column(name = "SELL_BY_PILL")
+    private boolean sellByPill;
+
+    @Column(name = "SELL_BY_BLISTER")
+    private boolean sellByBlister;
+
+    @Column(name = "SELL_BY_BOX")
+    private boolean sellByBox;
+
+    @Column(name = "IS_PILL_TYPE")
+    private boolean isPillType;
+
+    public boolean isSellByPill() {
+        return sellByPill;
+    }
+
+    public void setSellByPill(boolean sellByPill) {
+        this.sellByPill = sellByPill;
+    }
+
+    public boolean isSellByBlister() {
+        return sellByBlister;
+    }
+
+    public void setSellByBlister(boolean sellByBlister) {
+        this.sellByBlister = sellByBlister;
+    }
+
+    public boolean isSellByBox() {
+        return sellByBox;
+    }
+
+    public void setSellByBox(boolean sellByBox) {
+        this.sellByBox = sellByBox;
+    }
+
+    public boolean isPillType() {
+        return isPillType;
+    }
+
+    public void setPillType(boolean pillType) {
+        isPillType = pillType;
+    }
+
     public double getPricePerBlister() {
         return pricePerBlister;
     }
