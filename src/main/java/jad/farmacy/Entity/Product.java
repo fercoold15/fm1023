@@ -53,7 +53,7 @@ public class Product {
 
     @Column(name = "PRICE_PER_PILL")
     private double pricePerPill;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "STORE_ID", referencedColumnName = "STORE_ID", nullable = false)
     private Store store;
     @Column(name = "SELL_BY_PILL")
