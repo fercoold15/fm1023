@@ -25,6 +25,11 @@ public class SellingController {
         return sellingService.getSellingById(id);
     }
 
+    @GetMapping()
+    public ResponseEntity<GlobalResponse> getSellings() {
+        return sellingService.getSellings();
+    }
+
 
 
     @DeleteMapping("/{id}")
