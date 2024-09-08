@@ -2,6 +2,8 @@ package jad.farmacy.controller;
 
 import jad.farmacy.Entity.User;
 import jad.farmacy.Service.UserService;
+import jad.farmacy.configurations.GlobalResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -30,11 +32,11 @@ public class UserController {
         return ResponseEntity.ok(currentUser);
     }
 
-    @GetMapping("/")
+    @GetMapping()
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
-    public ResponseEntity<List<User>> allUsers() {
+    public ResponseEntity<GlobalResponse> allUsers() {
         List <User> users = userService.allUsers();
-
-        return ResponseEntity.ok(users);
+        GlobalResponse apiResponse = new GlobalResponse(200, "Usuarios encontrados", "Usuarios encontrados", users);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 }
