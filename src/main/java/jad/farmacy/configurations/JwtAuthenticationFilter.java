@@ -58,6 +58,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
                 if (jwtService.isTokenValid(jwt, userDetails)) {
+                    // Extraer los claims personalizados del token
+                    int store = Integer.parseInt(jwtService.extractClaim(jwt, "store"));
+                    int user = Integer.parseInt(jwtService.extractClaim(jwt, "userID"));
+                    int rol = Integer.parseInt(jwtService.extractClaim(jwt, "rol"));
+
+                    // Puedes guardar estos valores en la SecurityContext o usarlos directamente
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails,
                             null,
@@ -66,6 +72,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
+
+
+                    request.setAttribute("store", store);
+                    request.setAttribute("userID", user);
+                    request.setAttribute("rol", rol);
                 }
             }
 

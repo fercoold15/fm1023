@@ -13,6 +13,8 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
     @Query(value = "SELECT * FROM PRODUCTS WHERE QR_CODE = :CODE",nativeQuery = true)
     List<Product> findByBarcode(@Param("CODE") String code);
 
+    @Query(value = "SELECT * FROM PRODUCTS WHERE STORE_ID = :id",nativeQuery = true)
+    List<Product> findByBarcode(@Param("id") long id);
     @Query(value = "SELECT * FROM PRODUCTS WHERE STORE_ID = :STOREID",nativeQuery = true)
     List<Product> findAllByStore(@Param("STOREID") long storeID);
 
