@@ -18,6 +18,9 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
     @Query(value = "SELECT * FROM PRODUCTS WHERE STORE_ID = :STOREID",nativeQuery = true)
     List<Product> findAllByStore(@Param("STOREID") long storeID);
 
+    @Query(value = "SELECT * FROM PRODUCTS WHERE QUANTITY <=200",nativeQuery = true)
+    List<Product> findLowStock();
+
     @Query("SELECT p FROM Product p WHERE p.expirationDate BETWEEN :today AND :twoMonthsLater")
     List<Product> findProductsExpiringInNextTwoMonths(@Param("today") LocalDate today, @Param("twoMonthsLater") LocalDate twoMonthsLater);
 
