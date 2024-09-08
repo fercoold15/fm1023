@@ -53,7 +53,7 @@ public class OutgoingService {
         outgoing.setUser(user);
 
         Outgoing savedOutgoing = outgoingRepository.save(outgoing);
-        GlobalResponse apiResponse = new GlobalResponse(200, "Gasto Agregado", "Gasto agregado exitosamente", savedOutgoing);
+        GlobalResponse apiResponse = new GlobalResponse(200, "Gasto Agregado", "Gasto agregado exitosamente", null);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
