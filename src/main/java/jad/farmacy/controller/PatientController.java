@@ -27,8 +27,7 @@ public class PatientController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<GlobalResponse> updatePatient(@PathVariable Long id, @RequestBody UpdatePatient updatePatient) {
-        updatePatient.setPatientId(id);
+    public ResponseEntity<GlobalResponse> updatePatient( @RequestBody UpdatePatient updatePatient) {
         return patientService.updatePatient(updatePatient);
     }
 
