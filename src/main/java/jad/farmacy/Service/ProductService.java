@@ -65,6 +65,16 @@ public class ProductService {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
+    public ResponseEntity<GlobalResponse> getProductsLowStock() {
+        List<Product> lowStockProducts = productRepository.findLowStock();
+        if (lowStockProducts.isEmpty()) {
+            GlobalResponse apiResponse = new GlobalResponse(404, "No se encontraron productos", "No hay productos con bajo stock", null);
+            return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
+        }
+        GlobalResponse apiResponse = new GlobalResponse(200, "Productos encontrados", "Productos con bajo stock encontrados exitosamente", lowStockProducts);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
     public ResponseEntity<GlobalResponse> allProductsByStore(long storeID) {
         List<Product> products = new ArrayList<>();
         products=productRepository.findAllByStore(storeID);

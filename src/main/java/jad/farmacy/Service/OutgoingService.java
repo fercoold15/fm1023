@@ -9,6 +9,7 @@ import jad.farmacy.Repository.UserRepository;
 import jad.farmacy.configurations.GlobalResponse;
 import jad.farmacy.dto.NewOutgoing;
 import jad.farmacy.dto.UpdateOutgoing;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -28,10 +29,16 @@ public class OutgoingService {
         this.userRepository = userRepository;
     }
 
-    public ResponseEntity<GlobalResponse> allOutgoings() {
+    public ResponseEntity<GlobalResponse> allOutgoings(HttpServletRequest request) {
         List<Outgoing> outgoings = new ArrayList<>();
-        Iterable<Outgoing> iterable = outgoingRepository.findAll();
-        iterable.forEach(outgoings::add);
+        int rol = (Integer) request.getAttribute("rol");
+        long store=(Integer) request.getAttribute("store");
+        if(rol==1){
+            outgoings.addAll(outgoingRepository.findAllByStoreId(store));
+        }else{
+            Iterable<Outgoing> iterable = outgoingRepository.findAll();
+            iterable.forEach(outgoings::add);
+        }
         GlobalResponse apiResponse = new GlobalResponse(200, "Registros Encontrados", "Registros encontrados exitosamente", outgoings);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
