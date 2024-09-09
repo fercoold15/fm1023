@@ -68,6 +68,17 @@ public class Product {
     @Column(name = "IS_PILL_TYPE")
     private boolean isPillType;
 
+    @Column(name = "TYPE")
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public boolean isSellByPill() {
         return sellByPill;
     }
