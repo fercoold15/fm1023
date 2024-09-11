@@ -119,53 +119,44 @@ public class ProductService {
     }
 
     public ResponseEntity<GlobalResponse> updateProduct(UpdateProduct updateProduct) {
-       try{
-           if (updateProduct.getProductId() == 0) {
-               GlobalResponse apiResponse = new GlobalResponse(400, "Error", "ID de producto inválido", null);
-               return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
-           }
-           Store store = new Store();
-           store.setId(updateProduct.getStoreID());
-           Supplier supplier = new Supplier();
-           supplier.setId(updateProduct.getSupplierID());
-           DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-           LocalDate date = LocalDate.parse(updateProduct.getExpirationDate(), inputFormatter);
-           Product product = new Product();
-           product.setId(updateProduct.getProductId());
-           product.setProductName(updateProduct.getProductName());
-           product.setComercialName(updateProduct.getComercialName());
-           product.setSellPrice(updateProduct.getSellPrice());
-           product.setBuyPrice(updateProduct.getBuyPrice());
-           product.setPresentation(updateProduct.getPresentation());
-           product.setQrCode(updateProduct.getQrCode());
-           product.setQuantity(updateProduct.getQuantity());
-           product.setExpirationDate(date);
-           product.setDescription(updateProduct.getDescription());
-           product.setLote(updateProduct.getLote());
-           product.setStore(store);
-           product.setBlisterPerBox(updateProduct.getBlistersPerBox());
-           product.setBillsPerBlister(updateProduct.getBillsPerBlister());
-           product.setPricePerBlister(updateProduct.getPricePerBlister());
-           product.setPricePerPill(updateProduct.getPricePerPill());
-           product.setBrand(updateProduct.getBrand());
-           product.setSellByBox(updateProduct.isSellByBox());
-           product.setSellByBlister(updateProduct.isSellByBlister());
-           product.setSellByPill(updateProduct.isSellByPill());
-           product.setPillType(updateProduct.isPillType());
-           product.setType(updateProduct.getType());
-           product.setSupplier(supplier);
-           Product updatedProduct = productRepository.save(product);
-           if(updatedProduct!=null){
-               GlobalResponse apiResponse = new GlobalResponse(400, "Error", "Ocurrio un Error al actualizar el Producto", null);
-               return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
-           }
-           GlobalResponse apiResponse = new GlobalResponse(200, "Producto Actualizado", "Producto actualizado exitosamente", null);
-           return new ResponseEntity<>(apiResponse, HttpStatus.OK);
-       }catch(Exception ex){
-           ex.printStackTrace();
-       }
-        GlobalResponse apiResponse = new GlobalResponse(400, "Error", "Ocurrio un Error al actualizar el Producto", null);
-        return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
+        if (updateProduct.getProductId() == 0) {
+            GlobalResponse apiResponse = new GlobalResponse(400, "Error", "ID de producto inválido", null);
+            return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
+        }
+        Store store = new Store();
+        store.setId(updateProduct.getStoreID());
+        Supplier supplier = new Supplier();
+        supplier.setId(updateProduct.getSupplierID());
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(updateProduct.getExpirationDate(), inputFormatter);
+        Product product = new Product();
+        product.setId(updateProduct.getProductId());
+        product.setProductName(updateProduct.getProductName());
+        product.setComercialName(updateProduct.getComercialName());
+        product.setSellPrice(updateProduct.getSellPrice());
+        product.setBuyPrice(updateProduct.getBuyPrice());
+        product.setPresentation(updateProduct.getPresentation());
+        product.setQrCode(updateProduct.getQrCode());
+        product.setQuantity(updateProduct.getQuantity());
+        product.setExpirationDate(date);
+        product.setDescription(updateProduct.getDescription());
+        product.setLote(updateProduct.getLote());
+        product.setStore(store);
+        product.setBlisterPerBox(updateProduct.getBlistersPerBox());
+        product.setBillsPerBlister(updateProduct.getBillsPerBlister());
+        product.setPricePerBlister(updateProduct.getPricePerBlister());
+        product.setPricePerPill(updateProduct.getPricePerPill());
+        product.setBrand(updateProduct.getBrand());
+        product.setSellByBox(updateProduct.isSellByBox());
+        product.setSellByBlister(updateProduct.isSellByBlister());
+        product.setSellByPill(updateProduct.isSellByPill());
+        product.setPillType(updateProduct.isPillType());
+        product.setType(updateProduct.getType());
+        product.setSupplier(supplier);
+        Product updatedProduct = productRepository.save(product);
+
+        GlobalResponse apiResponse = new GlobalResponse(200, "Producto Actualizado", "Producto actualizado exitosamente", null);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     public ResponseEntity<GlobalResponse> getProductById(Long id) {
