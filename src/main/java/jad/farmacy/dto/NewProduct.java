@@ -39,6 +39,15 @@ public class NewProduct {
     private boolean isPillType;
 
     private String type;
+    private long supplierID;
+
+    public long getSupplierID() {
+        return supplierID;
+    }
+
+    public void setSupplierID(long supplierID) {
+        this.supplierID = supplierID;
+    }
 
     public String getType() {
         return type;

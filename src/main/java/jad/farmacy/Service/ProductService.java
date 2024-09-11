@@ -2,6 +2,7 @@ package jad.farmacy.Service;
 
 import jad.farmacy.Entity.Product;
 import jad.farmacy.Entity.Store;
+import jad.farmacy.Entity.Supplier;
 import jad.farmacy.Exceptions.ProductNotFoundException;
 import jad.farmacy.Repository.ProductRepository;
 import jad.farmacy.Repository.StoreRepository;
@@ -85,6 +86,8 @@ public class ProductService {
     public ResponseEntity<GlobalResponse> addProduct(NewProduct newProduct) {
         Store store = new Store();
         store.setId(newProduct.getStoreID());
+        Supplier supplier = new Supplier();
+        supplier.setId(newProduct.getSupplierID());
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date = LocalDate.parse(newProduct.getExpirationDate(), inputFormatter);
         Product product = new Product();
@@ -109,6 +112,7 @@ public class ProductService {
         product.setSellByPill(newProduct.isSellByPill());
         product.setPillType(newProduct.isPillType());
         product.setType(newProduct.getType());
+        product.setSupplier(supplier);
         Product savedProduct = productRepository.save(product);
         GlobalResponse apiResponse = new GlobalResponse(200, "Producto Agregado", "Producto agregado exitosamente", null);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
@@ -121,6 +125,8 @@ public class ProductService {
         }
         Store store = new Store();
         store.setId(updateProduct.getStoreID());
+        Supplier supplier = new Supplier();
+        supplier.setId(updateProduct.getSupplierID());
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date = LocalDate.parse(updateProduct.getExpirationDate(), inputFormatter);
         Product product = new Product();
@@ -146,6 +152,7 @@ public class ProductService {
         product.setSellByPill(updateProduct.isSellByPill());
         product.setPillType(updateProduct.isPillType());
         product.setType(updateProduct.getType());
+        product.setSupplier(supplier);
         Product updatedProduct = productRepository.save(product);
         if(updatedProduct!=null){
             GlobalResponse apiResponse = new GlobalResponse(400, "Error", "Ocurrio un Error al actualizar el Producto", null);
