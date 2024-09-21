@@ -44,6 +44,26 @@ public class UpdateProduct {
         return sellByPill;
     }
 
+    private String type;
+
+    private long supplierID;
+
+    public long getSupplierID() {
+        return supplierID;
+    }
+
+    public void setSupplierID(long supplierID) {
+        this.supplierID = supplierID;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public void setSellByPill(boolean sellByPill) {
         this.sellByPill = sellByPill;
     }

@@ -4,6 +4,7 @@ import jad.farmacy.Service.OutgoingService;
 import jad.farmacy.configurations.GlobalResponse;
 import jad.farmacy.dto.NewOutgoing;
 import jad.farmacy.dto.UpdateOutgoing;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +18,8 @@ public class OutgoingController {
     }
 
     @GetMapping
-    public ResponseEntity<GlobalResponse> getAllOutgoings() {
-        return outgoingService.allOutgoings();
+    public ResponseEntity<GlobalResponse> getAllOutgoings(HttpServletRequest request) {
+        return outgoingService.allOutgoings(request);
     }
 
     @PostMapping

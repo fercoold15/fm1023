@@ -53,7 +53,7 @@ public class Product {
 
     @Column(name = "PRICE_PER_PILL")
     private double pricePerPill;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "STORE_ID", referencedColumnName = "STORE_ID", nullable = false)
     private Store store;
     @Column(name = "SELL_BY_PILL")
@@ -67,6 +67,29 @@ public class Product {
 
     @Column(name = "IS_PILL_TYPE")
     private boolean isPillType;
+
+    @Column(name = "TYPE")
+    private String type;
+
+    @ManyToOne
+    @JoinColumn(name = "SUPPLIER_ID", referencedColumnName = "SUPPLIER_ID")
+    private Supplier supplier;
+
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public boolean isSellByPill() {
         return sellByPill;

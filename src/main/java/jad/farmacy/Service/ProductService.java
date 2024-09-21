@@ -2,12 +2,14 @@ package jad.farmacy.Service;
 
 import jad.farmacy.Entity.Product;
 import jad.farmacy.Entity.Store;
+import jad.farmacy.Entity.Supplier;
 import jad.farmacy.Exceptions.ProductNotFoundException;
 import jad.farmacy.Repository.ProductRepository;
 import jad.farmacy.Repository.StoreRepository;
 import jad.farmacy.configurations.GlobalResponse;
 import jad.farmacy.dto.NewProduct;
 import jad.farmacy.dto.UpdateProduct;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -31,9 +33,20 @@ public class ProductService {
     }
 
 
-    public ResponseEntity<GlobalResponse> allProducts() {
+    public ResponseEntity<GlobalResponse> allProducts(HttpServletRequest request) {
         List<Product> products = new ArrayList<>();
-        productRepository.findAll().forEach(products::add);
+        int rol = (Integer) request.getAttribute("rol");
+        long store=(Integer) request.getAttribute("store");
+        if(rol==1){
+            products.addAll(productRepository.findAllByStore(store));
+        }else{
+            productRepository.findAll().forEach(products::add);
+        }
+
+        products.forEach(product -> {
+            Optional<Store> storeOptional = storeRepository.findById(product.getStore().getId());
+            product.setStore(storeOptional.orElse(null));
+        });
         GlobalResponse apiResponse = new GlobalResponse(200, "Registros Encontrados", "Registros Encontrados", products);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
@@ -53,6 +66,16 @@ public class ProductService {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
+    public ResponseEntity<GlobalResponse> getProductsLowStock() {
+        List<Product> lowStockProducts = productRepository.findLowStock();
+        if (lowStockProducts.isEmpty()) {
+            GlobalResponse apiResponse = new GlobalResponse(404, "No se encontraron productos", "No hay productos con bajo stock", null);
+            return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
+        }
+        GlobalResponse apiResponse = new GlobalResponse(200, "Productos encontrados", "Productos con bajo stock encontrados exitosamente", lowStockProducts);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
     public ResponseEntity<GlobalResponse> allProductsByStore(long storeID) {
         List<Product> products = new ArrayList<>();
         products=productRepository.findAllByStore(storeID);
@@ -63,6 +86,8 @@ public class ProductService {
     public ResponseEntity<GlobalResponse> addProduct(NewProduct newProduct) {
         Store store = new Store();
         store.setId(newProduct.getStoreID());
+        Supplier supplier = new Supplier();
+        supplier.setId(newProduct.getSupplierID());
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date = LocalDate.parse(newProduct.getExpirationDate(), inputFormatter);
         Product product = new Product();
@@ -86,6 +111,8 @@ public class ProductService {
         product.setSellByBlister(newProduct.isSellByBlister());
         product.setSellByPill(newProduct.isSellByPill());
         product.setPillType(newProduct.isPillType());
+        product.setType(newProduct.getType());
+        product.setSupplier(supplier);
         Product savedProduct = productRepository.save(product);
         GlobalResponse apiResponse = new GlobalResponse(200, "Producto Agregado", "Producto agregado exitosamente", null);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
@@ -98,6 +125,8 @@ public class ProductService {
         }
         Store store = new Store();
         store.setId(updateProduct.getStoreID());
+        Supplier supplier = new Supplier();
+        supplier.setId(updateProduct.getSupplierID());
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date = LocalDate.parse(updateProduct.getExpirationDate(), inputFormatter);
         Product product = new Product();
@@ -122,11 +151,10 @@ public class ProductService {
         product.setSellByBlister(updateProduct.isSellByBlister());
         product.setSellByPill(updateProduct.isSellByPill());
         product.setPillType(updateProduct.isPillType());
+        product.setType(updateProduct.getType());
+        product.setSupplier(supplier);
         Product updatedProduct = productRepository.save(product);
-        if(updatedProduct!=null){
-            GlobalResponse apiResponse = new GlobalResponse(400, "Error", "Ocurrio un Error al actualizar el Producto", null);
-            return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
-        }
+
         GlobalResponse apiResponse = new GlobalResponse(200, "Producto Actualizado", "Producto actualizado exitosamente", null);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }

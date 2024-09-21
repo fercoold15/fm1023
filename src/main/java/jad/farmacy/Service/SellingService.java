@@ -15,6 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class SellingService {
     private final SellingRepository sellingRepository;
@@ -27,6 +30,13 @@ public class SellingService {
         this.sellingDetailRepository = sellingDetailRepository;
         this.productRepository = productRepository;
         this.userRepository = userRepository;
+    }
+
+    public ResponseEntity<GlobalResponse> getSellings() {
+        List<Selling> sellings = new ArrayList<>();
+        sellingRepository.findAll().forEach(sellings::add);
+        GlobalResponse response = new GlobalResponse(200, "Sales Found", "Sales found successfully", sellings);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 

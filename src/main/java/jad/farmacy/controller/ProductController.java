@@ -4,6 +4,7 @@ import jad.farmacy.Service.ProductService;
 import jad.farmacy.configurations.GlobalResponse;
 import jad.farmacy.dto.NewProduct;
 import jad.farmacy.dto.UpdateProduct;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,13 +18,18 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<GlobalResponse> getAllProducts() {
-        return productService.allProducts();
+    public ResponseEntity<GlobalResponse> getAllProducts(HttpServletRequest request) {
+        return productService.allProducts(request);
     }
 
     @GetMapping("/ProductsExpiring")
     public ResponseEntity<GlobalResponse> getProductsExpiring() {
         return productService.getProductsExpiringInNextTwoMonths();
+    }
+
+    @GetMapping("/ProductsLowStock")
+    public ResponseEntity<GlobalResponse> getProductsLowStock() {
+        return productService.getProductsLowStock();
     }
 
     @GetMapping("/{storeID}")
