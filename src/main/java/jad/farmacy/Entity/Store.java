@@ -19,17 +19,6 @@ public class Store {
     @Column(name = "STORE_DIRECTION")
     private String storeDirection;
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy="store")
-    @JsonIgnore
-    private List<Product> productList;
-
-    public List<Product> getProductList() {
-        return productList;
-    }
-
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
-    }
 
     public Long getId() {
         return id;
