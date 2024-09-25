@@ -1,5 +1,6 @@
 package jad.farmacy.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,6 +13,7 @@ public class SellingDetail {
     private Long id;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "SELLING_ID", referencedColumnName = "SELLING_ID", nullable = false)
     private Selling selling;
 
