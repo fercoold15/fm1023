@@ -1,6 +1,9 @@
 package jad.farmacy.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Table(name = "SUPPLIERS")
 @Entity
@@ -18,6 +21,18 @@ public class Supplier {
     private String phone;
     @Column(name = "SUPPLIER_DESCRIPTION")
     private String description;
+
+    @OneToMany(fetch = FetchType.EAGER,mappedBy="product")
+    @JsonIgnore
+    private List<Product> productList;
+
+    public List<Product> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
+    }
 
     public Long getId() {
         return id;

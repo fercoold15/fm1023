@@ -1,6 +1,9 @@
 package jad.farmacy.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Table(name = "STORES")
 @Entity
@@ -15,6 +18,18 @@ public class Store {
 
     @Column(name = "STORE_DIRECTION")
     private String storeDirection;
+
+    @OneToMany(fetch = FetchType.EAGER,mappedBy="product")
+    @JsonIgnore
+    private List<Product> productList;
+
+    public List<Product> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
+    }
 
     public Long getId() {
         return id;
