@@ -1,8 +1,10 @@
 package jad.farmacy.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "SELLINGS")
@@ -19,8 +21,12 @@ public class Selling {
     private double sellingTotal;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "USER_ID", referencedColumnName = "id", nullable = false)
     private User user;
+
+    @OneToMany(fetch = FetchType.EAGER,mappedBy="selling")
+    private List<SellingDetail> sellingDetailList;
 
     public User getUser() {
         return user;
@@ -28,6 +34,15 @@ public class Selling {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+
+    public List<SellingDetail> getSellingDetailList() {
+        return sellingDetailList;
+    }
+
+    public void setSellingDetailList(List<SellingDetail> sellingDetailList) {
+        this.sellingDetailList = sellingDetailList;
     }
 
     public Long getId() {
