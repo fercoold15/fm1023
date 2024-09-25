@@ -81,7 +81,13 @@ public class SellingService {
                 case "blister":
                     if (product.isPillType()) {
                         total = quantityToReduce * product.getPricePerBlister();
-                        quantityToReduce = quantityToReduce * product.getBillsPerBlister(); // Convert blisters to pills
+                        if(product.getBillsPerBlister() == 0) {
+                            quantityToReduce = quantityToReduce;
+                        }else{
+                            quantityToReduce = quantityToReduce * product.getBillsPerBlister();
+                        }
+
+                        System.out.println(quantityToReduce);// Convert blisters to pills
                     } else {
                         throw new IllegalArgumentException("Invalid selling unit for a non-pill product.");
                     }
@@ -89,7 +95,15 @@ public class SellingService {
                 case "box":
                     total = quantityToReduce * product.getSellPrice();
                     if (product.isPillType()) {
-                        quantityToReduce = quantityToReduce * product.getBlisterPerBox() * product.getBillsPerBlister(); // Convert boxes to pills
+                        if(product.getBillsPerBlister() == 0 && product.getBlisterPerBox()==0) {
+                            quantityToReduce = quantityToReduce;
+                        }else if(product.getBillsPerBlister() == 0){
+                            quantityToReduce = quantityToReduce * product.getBlisterPerBox();
+                        }
+                        else{
+                            quantityToReduce = quantityToReduce * product.getBlisterPerBox() * product.getBillsPerBlister(); // Convert boxes to pills
+                        }
+
                     }
                     break;
                 default:
