@@ -47,12 +47,12 @@ public class ProductService {
             productRepository.findAll().forEach(products::add);
         }
 
-//        products.forEach(product -> {
-//            Optional<Store> storeOptional = storeRepository.findById(product.getStore().getId());
-//            product.setStore(storeOptional.orElse(null));
-//            Optional<Supplier> supplier = supplierRepository.findById(product.getSupplier().getId());
-//            product.setSupplier(supplier.orElse(null));
-//        });
+        products.forEach(product -> {
+            Optional<Store> storeOptional = storeRepository.findById(product.getStore().getId());
+            product.setStore(storeOptional.orElse(null));
+            Optional<Supplier> supplier = supplierRepository.findById(product.getSupplier().getId());
+            product.setSupplier(supplier.orElse(null));
+        });
         GlobalResponse apiResponse = new GlobalResponse(200, "Registros Encontrados", "Registros Encontrados", products);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
@@ -175,6 +175,12 @@ public class ProductService {
     public ResponseEntity<GlobalResponse> getProductByBarcode(String code) {
         List<Product> products = productRepository.findByBarcode(code);
 
+        products.forEach(product -> {
+            Optional<Store> storeOptional = storeRepository.findById(product.getStore().getId());
+            product.setStore(storeOptional.orElse(null));
+            Optional<Supplier> supplier = supplierRepository.findById(product.getSupplier().getId());
+            product.setSupplier(supplier.orElse(null));
+        });
         if (products == null || products.isEmpty()) {
             throw new ProductNotFoundException("Product not found with barcode: " + code);
         }
