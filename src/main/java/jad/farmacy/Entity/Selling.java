@@ -25,7 +25,7 @@ public class Selling {
     @JoinColumn(name = "USER_ID", referencedColumnName = "id", nullable = false)
     private User user;
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy="selling")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy="store")
     private List<SellingDetail> sellingDetailList;
 
     public User getUser() {
