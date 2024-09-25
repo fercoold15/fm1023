@@ -22,18 +22,6 @@ public class Supplier {
     @Column(name = "SUPPLIER_DESCRIPTION")
     private String description;
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy="supplier")
-    @JsonIgnore
-    private List<Product> productList;
-
-    public List<Product> getProductList() {
-        return productList;
-    }
-
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
-    }
-
     public Long getId() {
         return id;
     }
