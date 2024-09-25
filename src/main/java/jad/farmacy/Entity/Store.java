@@ -19,7 +19,7 @@ public class Store {
     @Column(name = "STORE_DIRECTION")
     private String storeDirection;
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy="product")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy="store")
     @JsonIgnore
     private List<Product> productList;
 
