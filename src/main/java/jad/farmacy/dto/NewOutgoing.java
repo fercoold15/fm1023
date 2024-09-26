@@ -8,9 +8,19 @@ public class NewOutgoing {
     private String description;
     private String amount;
     private String value;
+
+    double total;
     private String billDate;
     private long userID;
     private long storeID;
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
 
     public long getStoreID() {
         return storeID;

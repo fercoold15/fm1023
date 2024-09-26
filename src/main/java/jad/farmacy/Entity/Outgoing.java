@@ -23,6 +23,9 @@ public class Outgoing {
     @Column(name = "BILL_DATE")
     private LocalDate billDate;
 
+    @Column(name = "TOTAL")
+    private double total;
+
     @ManyToOne
     @JoinColumn(name = "USER_ID", referencedColumnName = "id", nullable = false)
     private User user;
@@ -30,6 +33,14 @@ public class Outgoing {
     @ManyToOne
     @JoinColumn(name = "STORE_ID", referencedColumnName = "STORE_ID", nullable = false)
     private Store store;
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
 
     public Store getStore() {
         return store;

@@ -9,8 +9,16 @@ public class UpdateOutgoing {
     private String value;
     private String billDate;
     private long userID;
-
+    private double total;
     private long storeID;
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
 
     public long getStoreID() {
         return storeID;

@@ -172,6 +172,8 @@ public class ProductService {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
+
+
     public ResponseEntity<GlobalResponse> getProductByBarcode(String code) {
         List<Product> products = productRepository.findByBarcode(code);
 

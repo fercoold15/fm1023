@@ -3,6 +3,7 @@ package jad.farmacy.controller;
 import jad.farmacy.Service.OutgoingService;
 import jad.farmacy.configurations.GlobalResponse;
 import jad.farmacy.dto.NewOutgoing;
+import jad.farmacy.dto.TotalDTO;
 import jad.farmacy.dto.UpdateOutgoing;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
@@ -41,5 +42,10 @@ public class OutgoingController {
     public ResponseEntity<GlobalResponse> deleteOutgoingById(@PathVariable Long id) {
         return outgoingService.deleteOutgoingById(id);
     }
+    @PostMapping("/totalOutgoings")
+    public ResponseEntity<GlobalResponse> getTotalOutgoings(@RequestBody TotalDTO totalDTO) {
+        return outgoingService.getOutgoingsPerDay(totalDTO);
+    }
+
 }
 
