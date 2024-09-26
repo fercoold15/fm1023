@@ -60,6 +60,7 @@ public class OutgoingService {
         outgoing.setValue(newOutgoing.getValue());
         outgoing.setBillDate(date);
         outgoing.setStore(store);
+        outgoing.setTotal(newOutgoing.getTotal());
         outgoing.setUser(user);
 
         Outgoing savedOutgoing = outgoingRepository.save(outgoing);
@@ -88,6 +89,7 @@ public class OutgoingService {
         outgoing.setAmount(updateOutgoing.getAmount());
         outgoing.setValue(updateOutgoing.getValue());
         outgoing.setBillDate(date);
+        outgoing.setTotal(outgoing.getTotal());
         outgoing.setStore(store);
         outgoing.setUser(user);
 
