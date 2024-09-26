@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -15,7 +16,7 @@ public class Selling {
     private Long id;
 
     @Column(name = "SELLING_DATE")
-    private LocalDate sellingDate;
+    private LocalDateTime sellingDate;
 
     @Column(name = "SELLING_TOTAL")
     private double sellingTotal;
@@ -53,11 +54,11 @@ public class Selling {
         this.id = id;
     }
 
-    public LocalDate getSellingDate() {
+    public LocalDateTime getSellingDate() {
         return sellingDate;
     }
 
-    public void setSellingDate(LocalDate sellingDate) {
+    public void setSellingDate(LocalDateTime sellingDate) {
         this.sellingDate = sellingDate;
     }
 

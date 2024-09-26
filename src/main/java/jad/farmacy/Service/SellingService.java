@@ -48,7 +48,7 @@ public class SellingService {
 
     public ResponseEntity<GlobalResponse> addSelling(NewSelling newSelling) {
         Selling selling = new Selling();
-        LocalDate date = LocalDate.from(LocalDateTime.now(zoneId));
+        LocalDateTime date = LocalDateTime.from(LocalDateTime.now(zoneId));
         selling.setSellingDate(date);
         selling.setUser(userRepository.findById(newSelling.getUserId()).orElseThrow());
         selling.setSellingTotal(newSelling.getSellingTotal());
