@@ -6,6 +6,7 @@ import jad.farmacy.Entity.Supplier;
 import jad.farmacy.Exceptions.ProductNotFoundException;
 import jad.farmacy.Repository.ProductRepository;
 import jad.farmacy.Repository.StoreRepository;
+import jad.farmacy.Repository.SupplierRepository;
 import jad.farmacy.configurations.GlobalResponse;
 import jad.farmacy.dto.NewProduct;
 import jad.farmacy.dto.UpdateProduct;
@@ -26,10 +27,13 @@ import java.util.Optional;
 public class ProductService {
     private final ProductRepository productRepository;
     private final StoreRepository storeRepository;
+
+    private final SupplierRepository supplierRepository;
     ZoneId zoneId = ZoneId.of("UTC-6");
-    public ProductService(ProductRepository productRepository, StoreRepository storeRepository) {
+    public ProductService(ProductRepository productRepository, StoreRepository storeRepository, SupplierRepository supplierRepository) {
         this.productRepository = productRepository;
         this.storeRepository = storeRepository;
+        this.supplierRepository = supplierRepository;
     }
 
 
@@ -46,6 +50,8 @@ public class ProductService {
         products.forEach(product -> {
             Optional<Store> storeOptional = storeRepository.findById(product.getStore().getId());
             product.setStore(storeOptional.orElse(null));
+            Optional<Supplier> supplier = supplierRepository.findById(product.getSupplier().getId());
+            product.setSupplier(supplier.orElse(null));
         });
         GlobalResponse apiResponse = new GlobalResponse(200, "Registros Encontrados", "Registros Encontrados", products);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
@@ -166,9 +172,17 @@ public class ProductService {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
+
+
     public ResponseEntity<GlobalResponse> getProductByBarcode(String code) {
         List<Product> products = productRepository.findByBarcode(code);
 
+        products.forEach(product -> {
+            Optional<Store> storeOptional = storeRepository.findById(product.getStore().getId());
+            product.setStore(storeOptional.orElse(null));
+            Optional<Supplier> supplier = supplierRepository.findById(product.getSupplier().getId());
+            product.setSupplier(supplier.orElse(null));
+        });
         if (products == null || products.isEmpty()) {
             throw new ProductNotFoundException("Product not found with barcode: " + code);
         }

@@ -1,6 +1,9 @@
 package jad.farmacy.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Table(name = "SUPPLIERS")
 @Entity

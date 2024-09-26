@@ -6,15 +6,21 @@ import jad.farmacy.Entity.SellingDetail;
 import jad.farmacy.Exceptions.ProductNotFoundException;
 import jad.farmacy.Exceptions.SellingNotFoundException;
 import jad.farmacy.Repository.ProductRepository;
+import jad.farmacy.Repository.Proyections.ITotalSellings;
 import jad.farmacy.Repository.SellingDetailRepository;
 import jad.farmacy.Repository.SellingRepository;
 import jad.farmacy.Repository.UserRepository;
 import jad.farmacy.configurations.GlobalResponse;
 import jad.farmacy.dto.NewSelling;
+import jad.farmacy.dto.TotalDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +30,7 @@ public class SellingService {
     private final SellingDetailRepository sellingDetailRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
-
+    ZoneId zoneId = ZoneId.of("UTC-6");
     public SellingService(SellingRepository sellingRepository, SellingDetailRepository sellingDetailRepository, ProductRepository productRepository, UserRepository userRepository) {
         this.sellingRepository = sellingRepository;
         this.sellingDetailRepository = sellingDetailRepository;
@@ -42,7 +48,8 @@ public class SellingService {
 
     public ResponseEntity<GlobalResponse> addSelling(NewSelling newSelling) {
         Selling selling = new Selling();
-        selling.setSellingDate(newSelling.getSellingDate());
+        LocalDate date = LocalDate.from(LocalDateTime.now(zoneId));
+        selling.setSellingDate(date);
         selling.setUser(userRepository.findById(newSelling.getUserId()).orElseThrow());
         selling.setSellingTotal(newSelling.getSellingTotal());
         selling = sellingRepository.save(selling);
@@ -136,6 +143,14 @@ public class SellingService {
         Selling selling = sellingRepository.findById(id)
                 .orElseThrow(() -> new SellingNotFoundException("Sale not found with id: " + id));
         GlobalResponse response = new GlobalResponse(200, "Sale Found", "Sale found successfully", selling);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    public ResponseEntity<GlobalResponse> getSellingPerDay(TotalDTO totalDTO) {
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(totalDTO.getDate(), inputFormatter);
+        ITotalSellings totalSellings = sellingRepository.totalSellings(totalDTO.getDate(),totalDTO.getStoreID());
+        GlobalResponse response = new GlobalResponse(200, "Sale total Found", "Sale found successfully", totalSellings);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     public void deleteSellingById(Long id) {

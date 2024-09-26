@@ -1,6 +1,9 @@
 package jad.farmacy.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Table(name = "STORES")
 @Entity
@@ -15,6 +18,7 @@ public class Store {
 
     @Column(name = "STORE_DIRECTION")
     private String storeDirection;
+
 
     public Long getId() {
         return id;
