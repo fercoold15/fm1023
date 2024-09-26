@@ -2,6 +2,7 @@ package jad.farmacy.controller;
 
 import jad.farmacy.Service.SellingService;
 import jad.farmacy.configurations.GlobalResponse;
+import jad.farmacy.dto.TotalDTO;
 import jad.farmacy.dto.NewSelling;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +37,11 @@ public class SellingController {
     public ResponseEntity<Void> deleteSellingById(@PathVariable Long id) {
         sellingService.deleteSellingById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/totalSellings")
+    public ResponseEntity<GlobalResponse> getTotalSellings(@RequestBody TotalDTO totalDTO) {
+        return sellingService.getSellingPerDay(totalDTO);
     }
 }
 

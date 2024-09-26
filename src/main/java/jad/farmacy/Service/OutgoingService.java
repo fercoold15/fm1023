@@ -5,9 +5,12 @@ import jad.farmacy.Entity.Store;
 import jad.farmacy.Entity.User;
 import jad.farmacy.Exceptions.OutgoingNotFoundException;
 import jad.farmacy.Repository.OutgoingRepository;
+import jad.farmacy.Repository.Proyections.ITotalOutgoings;
+import jad.farmacy.Repository.Proyections.ITotalSellings;
 import jad.farmacy.Repository.UserRepository;
 import jad.farmacy.configurations.GlobalResponse;
 import jad.farmacy.dto.NewOutgoing;
+import jad.farmacy.dto.TotalDTO;
 import jad.farmacy.dto.UpdateOutgoing;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -109,6 +112,14 @@ public class OutgoingService {
             GlobalResponse apiResponse = new GlobalResponse(404, "Error", "Gasto no encontrado con id: " + id, null);
             return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
         }
+    }
+
+    public ResponseEntity<GlobalResponse> getOutgoingsPerDay(TotalDTO totalDTO) {
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(totalDTO.getDate(), inputFormatter);
+        ITotalOutgoings totalOutgoing = outgoingRepository.totalOutgoing(totalDTO.getStoreID(),totalDTO.getDate());
+        GlobalResponse response = new GlobalResponse(200, "Sale total Found", "Sale found successfully", totalOutgoing);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
 
