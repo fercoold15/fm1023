@@ -1,8 +1,6 @@
 package jad.farmacy.Service;
 
-import jad.farmacy.Entity.Product;
-import jad.farmacy.Entity.Selling;
-import jad.farmacy.Entity.SellingDetail;
+import jad.farmacy.Entity.*;
 import jad.farmacy.Exceptions.ProductNotFoundException;
 import jad.farmacy.Exceptions.SellingNotFoundException;
 import jad.farmacy.Repository.ProductRepository;
@@ -23,6 +21,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SellingService {
@@ -38,9 +37,16 @@ public class SellingService {
         this.userRepository = userRepository;
     }
 
-    public ResponseEntity<GlobalResponse> getSellings() {
-        List<Selling> sellings = new ArrayList<>();
-        sellingRepository.findAll().forEach(sellings::add);
+    public ResponseEntity<GlobalResponse> getSellings(String requestDate) {
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(requestDate, inputFormatter);
+        LocalDateTime startTime = date.atStartOfDay();
+        LocalDateTime endTime = date.atTime(23,59,00);
+        List<Selling> sellings =sellingRepository.getSellings(startTime.toString(),endTime.toString());
+        sellings.forEach(selling -> {
+            List<SellingDetail> sellingDetailList = sellingDetailRepository.findAllBySelling_Id(selling.getId());
+            selling.setSellingDetailList(sellingDetailList);
+        });
         GlobalResponse response = new GlobalResponse(200, "Sales Found", "Sales found successfully", sellings);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
