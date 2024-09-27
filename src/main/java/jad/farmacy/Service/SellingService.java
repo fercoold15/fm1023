@@ -149,7 +149,10 @@ public class SellingService {
     public ResponseEntity<GlobalResponse> getSellingPerDay(TotalDTO totalDTO) {
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date = LocalDate.parse(totalDTO.getDate(), inputFormatter);
-        ITotalSellings totalSellings = sellingRepository.totalSellings(totalDTO.getDate(),totalDTO.getStoreID());
+        LocalDateTime startTime = date.atStartOfDay();
+        LocalDateTime endTime = date.atTime(23,59,00);
+
+        ITotalSellings totalSellings = sellingRepository.totalSellings(startTime.toString(),endTime.toString(),totalDTO.getStoreID());
         GlobalResponse response = new GlobalResponse(200, "Sale total Found", "Sale found successfully", totalSellings);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -119,7 +120,10 @@ public class OutgoingService {
     public ResponseEntity<GlobalResponse> getOutgoingsPerDay(TotalDTO totalDTO) {
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date = LocalDate.parse(totalDTO.getDate(), inputFormatter);
-        ITotalOutgoings totalOutgoing = outgoingRepository.totalOutgoing(totalDTO.getStoreID(),totalDTO.getDate());
+        LocalDateTime startTime = date.atStartOfDay();
+        LocalDateTime endTime = date.atTime(23,59,00);
+
+        ITotalOutgoings totalOutgoing = outgoingRepository.totalOutgoing(startTime.toString(),endTime.toString(),totalDTO.getStoreID());
         GlobalResponse response = new GlobalResponse(200, "Sale total Found", "Sale found successfully", totalOutgoing);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
