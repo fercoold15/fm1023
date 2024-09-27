@@ -26,9 +26,9 @@ public class SellingController {
         return sellingService.getSellingById(id);
     }
 
-    @GetMapping()
-    public ResponseEntity<GlobalResponse> getSellings() {
-        return sellingService.getSellings();
+    @PostMapping("/sellingsPerDay/{day}")
+    public ResponseEntity<GlobalResponse> getSellings(@PathVariable String day) {
+        return sellingService.getSellings(day);
     }
 
 
