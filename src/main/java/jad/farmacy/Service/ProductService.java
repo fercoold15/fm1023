@@ -62,7 +62,12 @@ public class ProductService {
         LocalDate twoMonthsLater = today.plusMonths(2);
 
         List<Product> expiringProducts = productRepository.findProductsExpiringInNextTwoMonths(today, twoMonthsLater);
-
+        expiringProducts.forEach(product -> {
+            Optional<Store> storeOptional = storeRepository.findById(product.getStore().getId());
+            product.setStore(storeOptional.orElse(null));
+            Optional<Supplier> supplier = supplierRepository.findById(product.getSupplier().getId());
+            product.setSupplier(supplier.orElse(null));
+        });
         if (expiringProducts.isEmpty()) {
             GlobalResponse apiResponse = new GlobalResponse(404, "No se encontraron productos", "No hay productos que venzan en los próximos 2 meses", null);
             return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
@@ -78,6 +83,13 @@ public class ProductService {
             GlobalResponse apiResponse = new GlobalResponse(404, "No se encontraron productos", "No hay productos con bajo stock", null);
             return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
         }
+
+        lowStockProducts.forEach(product -> {
+            Optional<Store> storeOptional = storeRepository.findById(product.getStore().getId());
+            product.setStore(storeOptional.orElse(null));
+            Optional<Supplier> supplier = supplierRepository.findById(product.getSupplier().getId());
+            product.setSupplier(supplier.orElse(null));
+        });
         GlobalResponse apiResponse = new GlobalResponse(200, "Productos encontrados", "Productos con bajo stock encontrados exitosamente", lowStockProducts);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }

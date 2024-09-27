@@ -11,6 +11,6 @@ import java.util.List;
 public interface OutgoingRepository extends CrudRepository<Outgoing, Long> {
     List<Outgoing> findAllByStoreId(long id);
     @Query(value = "SELECT SUM(TOTAL) AS totalOutgoing\n" +
-            "FROM OUTGOINGS WHERE STORE_ID=:store AND BILL_DATE=:date",nativeQuery = true)
-    ITotalOutgoings totalOutgoing(@Param("store") long store,@Param("date") String date);
+            "FROM OUTGOINGS WHERE STORE_ID=:store AND BILL_DATE BETWEEN :startOfDay AND :endOfDay",nativeQuery = true)
+    ITotalOutgoings totalOutgoing(@Param("startOfDay") String startOfDay,@Param("endOfDay") String endOfDay,@Param("store") long store);
 }
