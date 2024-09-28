@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface SellingDetailRepository extends CrudRepository<SellingDetail,Long> {
     List<SellingDetail> findAllBySelling_Id(long id);
+
 }
