@@ -26,8 +26,19 @@ public class SellingDetail {
 
     @Column(name = "TOTAL")
     private double total;
+    @Column(name = "SELLING_UNIT")
+    private String sellingUnit;
 
     // Getters and Setters
+
+
+    public String getSellingUnit() {
+        return sellingUnit;
+    }
+
+    public void setSellingUnit(String sellingUnit) {
+        this.sellingUnit = sellingUnit;
+    }
 
     public Long getId() {
         return id;

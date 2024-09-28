@@ -34,9 +34,8 @@ public class SellingController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSellingById(@PathVariable Long id) {
-        sellingService.deleteSellingById(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<GlobalResponse> deleteSellingById(@PathVariable Long id) {
+        return sellingService.cancelSelling(id);
     }
 
     @PostMapping("/totalSellings")
