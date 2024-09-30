@@ -215,7 +215,7 @@ public class SellingService {
         }
 
         // Once all details are deleted, delete the main selling record
-        sellingRepository.delete(selling);
+        sellingRepository.deleteById(sellingId);
 
         GlobalResponse response = new GlobalResponse(200, "Sale Cancelled", "Sale cancelled and stock restored", null);
         return new ResponseEntity<>(response, HttpStatus.OK);
