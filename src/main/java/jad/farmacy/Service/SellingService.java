@@ -136,6 +136,7 @@ public class SellingService {
             sellingDetail.setProduct(product);
             sellingDetail.setQuantity(detail.getQuantity());
             sellingDetail.setTotal(total);
+            sellingDetail.setSellingUnit(sellingUnit);
             sellingDetailRepository.save(sellingDetail);
         }
 
@@ -162,13 +163,64 @@ public class SellingService {
         GlobalResponse response = new GlobalResponse(200, "Sale total Found", "Sale found successfully", totalSellings);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    public void deleteSellingById(Long id) {
-        if (sellingRepository.existsById(id)) {
-            sellingRepository.deleteById(id);
-        } else {
-            throw new SellingNotFoundException("Sale not found with id: " + id);
+    public ResponseEntity<GlobalResponse> cancelSelling(Long sellingId) {
+        Selling selling = sellingRepository.findById(sellingId)
+                .orElseThrow(() -> new IllegalArgumentException("Sale not found with id: " + sellingId));
+
+        // Retrieve all the selling details associated with the sale
+        List<SellingDetail> sellingDetails = sellingDetailRepository.findAllBySelling_Id(sellingId);
+
+        // Loop through each selling detail and restore the product stock
+        for (SellingDetail detail : sellingDetails) {
+            Product product = detail.getProduct();
+            int quantityToRestore = detail.getQuantity();
+
+            // Restore the product stock based on the selling unit used during the sale
+            String sellingUnit = detail.getSellingUnit(); // Assuming you store the selling unit in the detail
+
+            switch (sellingUnit.toLowerCase()) {
+                case "pill":
+                    // No conversion needed, restore pill quantity directly
+                    product.setQuantity(product.getQuantity() + quantityToRestore);
+                    break;
+                case "blister":
+                    // Convert blisters back to pills if it's a pill-type product
+                    if (product.isPillType()) {
+                        if(product.getBillsPerBlister() > 0) {
+                            quantityToRestore = quantityToRestore * product.getBillsPerBlister();
+                        }
+                    }
+                    product.setQuantity(product.getQuantity() + quantityToRestore);
+                    break;
+                case "box":
+                    // Convert boxes back to pills or blisters if it's a pill-type product
+                    if (product.isPillType()) {
+                        if (product.getBillsPerBlister() > 0 && product.getBlisterPerBox() > 0) {
+                            quantityToRestore = quantityToRestore * product.getBlisterPerBox() * product.getBillsPerBlister();
+                        } else if (product.getBlisterPerBox() > 0) {
+                            quantityToRestore = quantityToRestore * product.getBlisterPerBox();
+                        }
+                    }
+                    product.setQuantity(product.getQuantity() + quantityToRestore);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid selling unit.");
+            }
+
+            // Save the updated product stock
+            productRepository.save(product);
+
+            // Delete the selling detail
+            sellingDetailRepository.delete(detail);
         }
+
+        // Once all details are deleted, delete the main selling record
+        sellingRepository.deleteById(sellingId);
+
+        GlobalResponse response = new GlobalResponse(200, "Sale Cancelled", "Sale cancelled and stock restored", null);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
 
 }
 
