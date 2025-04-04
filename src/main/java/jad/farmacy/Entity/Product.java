@@ -75,6 +75,12 @@ public class Product {
     @JoinColumn(name = "SUPPLIER_ID", referencedColumnName = "SUPPLIER_ID")
     private Supplier supplier;
 
+    @Column(name = "SHELF")
+    private String shelf;
+
+    @Column(name = "WHOLESALE_PRICE")
+    private String wholeSalePrice;
+
     public Supplier getSupplier() {
         return supplier;
     }
@@ -259,5 +265,21 @@ public class Product {
 
     public void setLote(String lote) {
         this.lote = lote;
+    }
+
+    public String getShelf() {
+        return shelf;
+    }
+
+    public void setShelf(String shelf) {
+        this.shelf = shelf;
+    }
+
+    public String getWholeSalePrice() {
+        return wholeSalePrice;
+    }
+
+    public void setWholeSalePrice(String wholeSalePrice) {
+        this.wholeSalePrice = wholeSalePrice;
     }
 }

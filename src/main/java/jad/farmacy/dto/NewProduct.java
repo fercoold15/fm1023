@@ -41,6 +41,9 @@ public class NewProduct {
     private String type;
     private long supplierID;
 
+    private String Shelf;
+    private String wholeSalePrice;
+
     public long getSupplierID() {
         return supplierID;
     }
@@ -215,5 +218,21 @@ public class NewProduct {
 
     public void setStoreID(long storeID) {
         this.storeID = storeID;
+    }
+
+    public String getShelf() {
+        return Shelf;
+    }
+
+    public void setShelf(String shelf) {
+        Shelf = shelf;
+    }
+
+    public String getWholeSalePrice() {
+        return wholeSalePrice;
+    }
+
+    public void setWholeSalePrice(String wholeSalePrice) {
+        this.wholeSalePrice = wholeSalePrice;
     }
 }

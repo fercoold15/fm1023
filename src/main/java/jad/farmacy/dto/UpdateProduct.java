@@ -40,6 +40,9 @@ public class UpdateProduct {
 
     private boolean isPillType;
 
+    private String Shelf;
+    private String wholeSalePrice;
+
     public boolean isSellByPill() {
         return sellByPill;
     }
@@ -226,5 +229,21 @@ public class UpdateProduct {
 
     public void setLote(String lote) {
         this.lote = lote;
+    }
+
+    public String getShelf() {
+        return Shelf;
+    }
+
+    public void setShelf(String shelf) {
+        Shelf = shelf;
+    }
+
+    public String getWholeSalePrice() {
+        return wholeSalePrice;
+    }
+
+    public void setWholeSalePrice(String wholeSalePrice) {
+        this.wholeSalePrice = wholeSalePrice;
     }
 }
