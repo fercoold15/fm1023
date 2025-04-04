@@ -131,6 +131,8 @@ public class ProductService {
         product.setPillType(newProduct.isPillType());
         product.setType(newProduct.getType());
         product.setSupplier(supplier);
+        product.setShelf(newProduct.getShelf());
+        product.setWholeSalePrice(newProduct.getWholeSalePrice());
         Product savedProduct = productRepository.save(product);
         GlobalResponse apiResponse = new GlobalResponse(200, "Producto Agregado", "Producto agregado exitosamente", null);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
@@ -171,6 +173,8 @@ public class ProductService {
         product.setPillType(updateProduct.isPillType());
         product.setType(updateProduct.getType());
         product.setSupplier(supplier);
+        product.setShelf(updateProduct.getShelf());
+        product.setWholeSalePrice(updateProduct.getWholeSalePrice());
         Product updatedProduct = productRepository.save(product);
 
         GlobalResponse apiResponse = new GlobalResponse(200, "Producto Actualizado", "Producto actualizado exitosamente", null);
