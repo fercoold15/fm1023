@@ -41,7 +41,7 @@ public class UpdateProduct {
     private boolean isPillType;
 
     private String Shelf;
-    private String wholeSalePrice;
+    private double wholeSalePrice;
 
     public boolean isSellByPill() {
         return sellByPill;
@@ -239,11 +239,11 @@ public class UpdateProduct {
         Shelf = shelf;
     }
 
-    public String getWholeSalePrice() {
+    public double getWholeSalePrice() {
         return wholeSalePrice;
     }
 
-    public void setWholeSalePrice(String wholeSalePrice) {
+    public void setWholeSalePrice(double wholeSalePrice) {
         this.wholeSalePrice = wholeSalePrice;
     }
 }
