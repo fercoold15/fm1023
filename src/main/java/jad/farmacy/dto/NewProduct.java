@@ -42,7 +42,7 @@ public class NewProduct {
     private long supplierID;
 
     private String Shelf;
-    private String wholeSalePrice;
+    private double wholeSalePrice;
 
     public long getSupplierID() {
         return supplierID;
@@ -228,11 +228,11 @@ public class NewProduct {
         Shelf = shelf;
     }
 
-    public String getWholeSalePrice() {
+    public double getWholeSalePrice() {
         return wholeSalePrice;
     }
 
-    public void setWholeSalePrice(String wholeSalePrice) {
+    public void setWholeSalePrice(double wholeSalePrice) {
         this.wholeSalePrice = wholeSalePrice;
     }
 }

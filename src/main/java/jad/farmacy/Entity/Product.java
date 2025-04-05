@@ -79,7 +79,7 @@ public class Product {
     private String shelf;
 
     @Column(name = "WHOLESALE_PRICE")
-    private String wholeSalePrice;
+    private double wholeSalePrice;
 
     public Supplier getSupplier() {
         return supplier;
@@ -275,11 +275,11 @@ public class Product {
         this.shelf = shelf;
     }
 
-    public String getWholeSalePrice() {
+    public double getWholeSalePrice() {
         return wholeSalePrice;
     }
 
-    public void setWholeSalePrice(String wholeSalePrice) {
+    public void setWholeSalePrice(double wholeSalePrice) {
         this.wholeSalePrice = wholeSalePrice;
     }
 }
