@@ -53,7 +53,7 @@ public class Product {
 
     @Column(name = "PRICE_PER_PILL")
     private double pricePerPill;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "STORE_ID", referencedColumnName = "STORE_ID", nullable = false)
     private Store store;
     @Column(name = "SELL_BY_PILL")
@@ -71,7 +71,7 @@ public class Product {
     @Column(name = "TYPE")
     private String type;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "SUPPLIER_ID", referencedColumnName = "SUPPLIER_ID")
     private Supplier supplier;
 
