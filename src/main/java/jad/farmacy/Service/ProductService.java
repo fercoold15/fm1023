@@ -21,6 +21,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -38,21 +39,14 @@ public class ProductService {
 
 
     public ResponseEntity<GlobalResponse> allProducts(HttpServletRequest request) {
-        List<Product> products = new ArrayList<>();
+        List<Map<String,Object>> products = new ArrayList<>();
         int rol = (Integer) request.getAttribute("rol");
         long store=(Integer) request.getAttribute("store");
         if(rol==1){
             products.addAll(productRepository.findAllByStore(store));
         }else{
-            productRepository.findAll().forEach(products::add);
+            productRepository.findAllProducts().forEach(products::add);
         }
-
-        products.forEach(product -> {
-            Optional<Store> storeOptional = storeRepository.findById(product.getStore().getId());
-            product.setStore(storeOptional.orElse(null));
-            Optional<Supplier> supplier = supplierRepository.findById(product.getSupplier().getId());
-            product.setSupplier(supplier.orElse(null));
-        });
         GlobalResponse apiResponse = new GlobalResponse(200, "Registros Encontrados", "Registros Encontrados", products);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
@@ -78,24 +72,17 @@ public class ProductService {
     }
 
     public ResponseEntity<GlobalResponse> getProductsLowStock() {
-        List<Product> lowStockProducts = productRepository.findLowStock();
+        List<Map<String,Object>> lowStockProducts = productRepository.findLowStock();
         if (lowStockProducts.isEmpty()) {
             GlobalResponse apiResponse = new GlobalResponse(404, "No se encontraron productos", "No hay productos con bajo stock", null);
             return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
         }
-
-        lowStockProducts.forEach(product -> {
-            Optional<Store> storeOptional = storeRepository.findById(product.getStore().getId());
-            product.setStore(storeOptional.orElse(null));
-            Optional<Supplier> supplier = supplierRepository.findById(product.getSupplier().getId());
-            product.setSupplier(supplier.orElse(null));
-        });
         GlobalResponse apiResponse = new GlobalResponse(200, "Productos encontrados", "Productos con bajo stock encontrados exitosamente", lowStockProducts);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     public ResponseEntity<GlobalResponse> allProductsByStore(long storeID) {
-        List<Product> products = new ArrayList<>();
+        List<Map<String,Object>> products = new ArrayList<>();
         products=productRepository.findAllByStore(storeID);
         GlobalResponse apiResponse = new GlobalResponse(200, "Registros Encontrados", "Registros Encontrados", products);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
