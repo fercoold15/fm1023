@@ -40,10 +40,12 @@ public class ProductService {
 
     public ResponseEntity<GlobalResponse> allProducts(HttpServletRequest request) {
         List<Map<String,Object>> products = new ArrayList<>();
-        int rol = (Integer) request.getAttribute("rol");
-        long store=(Integer) request.getAttribute("store");
+        int rol = 2;
+//        long store=(Integer) request.getAttribute("store");
+
+//        rol=2;
         if(rol==1){
-            products.addAll(productRepository.findAllByStore(store));
+//            products.addAll(productRepository.findAllByStore(store));
         }else{
             productRepository.findAllProducts().forEach(products::add);
         }

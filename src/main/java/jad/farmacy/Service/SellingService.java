@@ -64,9 +64,8 @@ public class SellingService {
             Product product = productRepository.findById(detail.getProductId())
                     .orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + detail.getProductId()));
 
-            // Validate the selling unit only if the product is of pill type
             String sellingUnit = detail.getSellingUnit();
-            int quantityToReduce = detail.getQuantity(); // The quantity to reduce based on the selling unit
+            int quantityToReduce = detail.getQuantity();
 
             if (product.isPillType()) {
                 if (("pill".equalsIgnoreCase(sellingUnit) && !product.isSellByPill()) ||
