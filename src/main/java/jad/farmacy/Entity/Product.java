@@ -81,6 +81,17 @@ public class Product {
     @Column(name = "WHOLESALE_PRICE")
     private double wholeSalePrice;
 
+    @Column(name = "STATUS")
+    private boolean status;
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
     public Supplier getSupplier() {
         return supplier;
     }

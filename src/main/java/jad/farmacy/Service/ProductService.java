@@ -203,14 +203,28 @@ public class ProductService {
 
 
     public ResponseEntity<GlobalResponse> deleteProductById(Long id) {
-        if (productRepository.existsById(id)) {
-            productRepository.deleteById(id);
-            GlobalResponse apiResponse = new GlobalResponse(200, "Producto Eliminado", "Producto eliminado exitosamente", null);
+        Optional<Product> productOpt = productRepository.findById(id);
+        if (productOpt.isPresent()) {
+            Product product = productOpt.get();
+            product.setStatus(false);
+            productRepository.save(product);
+            GlobalResponse apiResponse = new GlobalResponse(
+                    200,
+                    "Producto Eliminado",
+                    "Producto marcado como eliminado exitosamente",
+                    null
+            );
             return new ResponseEntity<>(apiResponse, HttpStatus.OK);
         } else {
-            GlobalResponse apiResponse = new GlobalResponse(404, "Error", "Producto no encontrado con id: " + id, null);
+            GlobalResponse apiResponse = new GlobalResponse(
+                    404,
+                    "Error",
+                    "Producto no encontrado con id: " + id,
+                    null
+            );
             return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
         }
     }
+
 }
 
