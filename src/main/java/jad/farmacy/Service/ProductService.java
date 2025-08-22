@@ -40,12 +40,12 @@ public class ProductService {
 
     public ResponseEntity<GlobalResponse> allProducts(HttpServletRequest request) {
         List<Map<String,Object>> products = new ArrayList<>();
-        int rol = 2;
-//        long store=(Integer) request.getAttribute("store");
+        int rol = (Integer) request.getAttribute("rol");
+        long store=(Integer) request.getAttribute("store");
 
-//        rol=2;
+
         if(rol==1){
-//            products.addAll(productRepository.findAllByStore(store));
+            products.addAll(productRepository.findAllByStore(store));
         }else{
             productRepository.findAllProducts().forEach(products::add);
         }
@@ -122,6 +122,7 @@ public class ProductService {
         product.setSupplier(supplier);
         product.setShelf(newProduct.getShelf());
         product.setWholeSalePrice(newProduct.getWholeSalePrice());
+        product.setStatus(true);
         Product savedProduct = productRepository.save(product);
         GlobalResponse apiResponse = new GlobalResponse(200, "Producto Agregado", "Producto agregado exitosamente", null);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
@@ -164,6 +165,7 @@ public class ProductService {
         product.setSupplier(supplier);
         product.setShelf(updateProduct.getShelf());
         product.setWholeSalePrice(updateProduct.getWholeSalePrice());
+        product.setStatus(true);
         Product updatedProduct = productRepository.save(product);
 
         GlobalResponse apiResponse = new GlobalResponse(200, "Producto Actualizado", "Producto actualizado exitosamente", null);
