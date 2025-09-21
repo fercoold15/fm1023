@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface ProductRepository extends CrudRepository<Product, Long> {
-    @Query(value = "SELECT * FROM PRODUCTS WHERE QR_CODE = :CODE",nativeQuery = true)
+    @Query(value = "SELECT * FROM PRODUCTS WHERE QR_CODE = :CODE AND STATUS = TRUE",nativeQuery = true)
     List<Product> findByBarcode(@Param("CODE") String code);
 
     @Query(value = "SELECT * FROM PRODUCTS WHERE STORE_ID = :id",nativeQuery = true)
