@@ -8,15 +8,17 @@ public class NewSelling {
     private int userId;
     private double sellingTotal;
     private List<NewSellingDetail> details;
+    private String XML;
 
-    // Constructor
-    public NewSelling() {}
 
-    public NewSelling(LocalDate sellingDate, int userId, double sellingTotal, List<NewSellingDetail> details) {
+
+
+    public NewSelling(LocalDate sellingDate, int userId, double sellingTotal, List<NewSellingDetail> details, String xml) {
         this.sellingDate = sellingDate;
         this.userId = userId;
         this.sellingTotal = sellingTotal;
         this.details = details;
+        XML = xml;
     }
 
     // Getters y Setters
@@ -50,6 +52,14 @@ public class NewSelling {
 
     public void setDetails(List<NewSellingDetail> details) {
         this.details = details;
+    }
+
+    public String getXML() {
+        return XML;
+    }
+
+    public void setXML(String XML) {
+        this.XML = XML;
     }
 
     // Clase interna para los detalles de la venta

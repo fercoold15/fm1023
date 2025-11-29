@@ -123,6 +123,7 @@ public class ProductService {
         product.setShelf(newProduct.getShelf());
         product.setWholeSalePrice(newProduct.getWholeSalePrice());
         product.setStatus(true);
+        product.setIvaExclusion(newProduct.isIvaExclusion());
         Product savedProduct = productRepository.save(product);
         GlobalResponse apiResponse = new GlobalResponse(200, "Producto Agregado", "Producto agregado exitosamente", null);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
@@ -166,6 +167,7 @@ public class ProductService {
         product.setShelf(updateProduct.getShelf());
         product.setWholeSalePrice(updateProduct.getWholeSalePrice());
         product.setStatus(true);
+        product.setIvaExclusion(updateProduct.isIvaExclusion());
         Product updatedProduct = productRepository.save(product);
 
         GlobalResponse apiResponse = new GlobalResponse(200, "Producto Actualizado", "Producto actualizado exitosamente", null);
