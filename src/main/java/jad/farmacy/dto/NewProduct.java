@@ -43,6 +43,15 @@ public class NewProduct {
 
     private String Shelf;
     private double wholeSalePrice;
+    private boolean ivaExclusion;
+
+    public boolean isIvaExclusion() {
+        return ivaExclusion;
+    }
+
+    public void setIvaExclusion(boolean ivaExclusion) {
+        this.ivaExclusion = ivaExclusion;
+    }
 
     public long getSupplierID() {
         return supplierID;

@@ -42,6 +42,15 @@ public class UpdateProduct {
 
     private String Shelf;
     private double wholeSalePrice;
+    private boolean ivaExclusion;
+
+    public boolean isIvaExclusion() {
+        return ivaExclusion;
+    }
+
+    public void setIvaExclusion(boolean ivaExclusion) {
+        this.ivaExclusion = ivaExclusion;
+    }
 
     public boolean isSellByPill() {
         return sellByPill;

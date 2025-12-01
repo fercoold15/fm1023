@@ -21,6 +21,17 @@ public class Selling {
     @Column(name = "SELLING_TOTAL")
     private double sellingTotal;
 
+    @Column(name = "XML")
+    private String XML;
+
+    public String getXML() {
+        return XML;
+    }
+
+    public void setXML(String XML) {
+        this.XML = XML;
+    }
+
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "USER_ID", referencedColumnName = "id", nullable = false)
@@ -36,6 +47,7 @@ public class Selling {
     public void setUser(User user) {
         this.user = user;
     }
+
 
 
     public List<SellingDetail> getSellingDetailList() {

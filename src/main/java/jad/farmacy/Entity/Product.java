@@ -84,6 +84,17 @@ public class Product {
     @Column(name = "STATUS")
     private boolean status;
 
+    @Column(name = "IVA_EXCLUSION")
+    private boolean ivaExclusion;
+
+    public boolean isIvaExclusion() {
+        return ivaExclusion;
+    }
+
+    public void setIvaExclusion(boolean ivaExclusion) {
+        this.ivaExclusion = ivaExclusion;
+    }
+
     public void setStatus(boolean status) {
         this.status = status;
     }

@@ -58,6 +58,7 @@ public class SellingService {
         selling.setSellingDate(date);
         selling.setUser(userRepository.findById(newSelling.getUserId()).orElseThrow());
         selling.setSellingTotal(newSelling.getSellingTotal());
+        selling.setXML(newSelling.getXML());
         selling = sellingRepository.save(selling);
 
         for (NewSelling.NewSellingDetail detail : newSelling.getDetails()) {
